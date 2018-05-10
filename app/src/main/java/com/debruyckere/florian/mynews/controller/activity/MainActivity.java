@@ -1,7 +1,9 @@
-package com.debruyckere.florian.mynews;
+package com.debruyckere.florian.mynews.controller.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.debruyckere.florian.mynews.R;
 
 public class MainActivity extends AppCompatActivity {
 
