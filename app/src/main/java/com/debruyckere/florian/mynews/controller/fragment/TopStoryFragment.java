@@ -13,19 +13,30 @@ import com.debruyckere.florian.mynews.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopStoryFragment extends Fragment {
+public class TopStoryFragment extends BaseFragment {
 
 
     public TopStoryFragment() {
         // Required empty public constructor
     }
 
+    //@Override
+    public static BaseFragment newInstance(int position, int color){
+        TopStoryFragment tSF = new TopStoryFragment();
+        Bundle args = new Bundle();
+
+        args.putInt(KEY_Position,position);
+        args.putInt(KEY_Color,color);
+        tSF.setArguments(args);
+
+        return tSF;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
+        textView.setText("topstory fragment");
         return textView;
     }
 
