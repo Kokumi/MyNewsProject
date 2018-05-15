@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:icon="@drawable/ic_launcher_background"
+        android:id="@+id/toolbar_back"
+        android:title="@string/BackMain">
+    </item>
+
+    <item
+        android:id="@+id/toolbar_search"
+        app:showAsAction="always"
+        android:title="@string/SearchToolbar">
+    </item>
+    <item
+        android:id="@+id/toolbar_about"
+        android:title="@string/aboutToolbar"
+        app:showAsAction="ifRoom"> </item>
+
+</menu>
