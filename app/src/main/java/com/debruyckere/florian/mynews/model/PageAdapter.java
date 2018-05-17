@@ -1,5 +1,6 @@
 package com.debruyckere.florian.mynews.model;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -39,7 +40,22 @@ public class PageAdapter extends FragmentPagerAdapter {
             default: bF = new BaseFragment();
                 break;
         }
-
         return bF;
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        String pageTitle ="";
+
+        switch (position){
+            case 0:pageTitle+="Top story";
+            break;
+            case 1:pageTitle+="Popular";
+            break;
+            case 2:pageTitle+="Personal";
+            break;
+        }
+        return pageTitle;
     }
 }

@@ -2,6 +2,7 @@ package com.debruyckere.florian.mynews.controller.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +17,12 @@ import android.view.View;
 import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.PageAdapter;
 
+import butterknife.BindView;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
+    @BindView(R.id.main_toolbar) Toolbar mToolbar;
+    @BindView(R.id.main_tabs)TabLayout mTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mToolbar = findViewById(R.id.main_toolbar);
+        mTab = findViewById(R.id.main_tabs);
         setSupportActionBar(mToolbar);
 
         configureViewPager();
@@ -35,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         ViewPager pager = findViewById(R.id.main_viewpager);
         pager.setAdapter(new PageAdapter(getSupportFragmentManager(),getResources().getIntArray(R.array.colorPagesViewPager)){
         });
+
+        mTab.setupWithViewPager(pager);
+        mTab.setTabMode(TabLayout.MODE_FIXED);
+
     }
 
     @Override
