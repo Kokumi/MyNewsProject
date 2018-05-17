@@ -2,13 +2,24 @@ package com.debruyckere.florian.mynews.controller.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.debruyckere.florian.mynews.R;
+import com.debruyckere.florian.mynews.model.News;
+import com.debruyckere.florian.mynews.model.NewsAdapter;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +29,8 @@ public class BaseFragment extends Fragment {
     public static final String KEY_Position = "position";
     public static final String KEY_Color ="color";
 
-    protected TextView mTextView;
+    @BindView(R.id.fragment_recyclerview) RecyclerView mRecyclerView;
+    //protected RecyclerView mRecyclerView;
 
 
     public BaseFragment() {
@@ -42,9 +54,22 @@ public class BaseFragment extends Fragment {
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_base, container, false);
 
-        mTextView = result.findViewById(R.id.fragment_textview);
+        mRecyclerView = result.findViewById(R.id.fragment_recyclerview);
+
+        configureRecyclerView();
 
         return result;
+    }
+
+    public void configureRecyclerView(){
+        Log.i("BASE FRAGMENT","configure recyclerView");
+        News testNews = new News("Android P real name is Android Pancake",
+                "Technologie/Android",new Date(),"nep","Place");
+        ArrayList<News> testArray = new ArrayList<>();
+        testArray.add(testNews);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(new NewsAdapter(testArray));
     }
 
 }

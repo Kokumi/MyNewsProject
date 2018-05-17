@@ -35,9 +35,10 @@ public class TopStoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText("topstory fragment");
-        return textView;
+        View result = super.onCreateView(inflater,container,savedInstanceState);
+
+
+        return result;
     }
 
 }

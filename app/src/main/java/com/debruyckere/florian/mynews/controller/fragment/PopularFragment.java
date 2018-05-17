@@ -35,9 +35,9 @@ public class PopularFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText("popular fragment");
-        return textView;
+        View view = super.onCreateView(inflater,container,savedInstanceState);
+
+        return view;
     }
 
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.debruyckere.florian.mynews.R;
 
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 /**
@@ -23,11 +24,21 @@ import java.util.ArrayList;
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private ArrayList<News> mNewsArrayList = new ArrayList<News>();
+    private ArrayList<News> mNewsArrayList = new ArrayList<>();
+
+    public NewsAdapter(){}
+
+    public NewsAdapter(ArrayList<News> pNews){
+        mNewsArrayList = pNews;
+    }
+
 
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        Log.i("NEWS ADAPTER","on creating");
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.new_cell,parent,false);
         return new NewsViewHolder(view);
@@ -35,13 +46,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+
         News mNew = mNewsArrayList.get(position);
         holder.display(mNew);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mNewsArrayList.size();
     }
 
     /*--------------
@@ -57,7 +69,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         private final TextView mDate;
         private News currentNew;
 
-        public NewsViewHolder(final View newsView){
+        private NewsViewHolder(final View newsView){
             super(newsView);
 
             mImageView = newsView.findViewById(R.id.cell_image);
@@ -74,12 +86,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         }
 
-        public void display(News pNew){
+        private void display(News pNew){
+            DateFormat formater = DateFormat.getDateInstance();
+
             currentNew = pNew;
             mTitle.setText(pNew.getTitle());
             mTheme.setText(pNew.getTheme());
-            mDate.setText(pNew.getDate().toString());
-            new DownloadImageTask(mImageView).execute(pNew.getImage());
+            mDate.setText(formater.format(pNew.getDate()));
+            try {
+                new DownloadImageTask(mImageView).execute(pNew.getImage());
+            }catch (Exception e){
+                Log.d("NO IMAGE"," no image found");
+            }
         }
     }
 
@@ -89,7 +107,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
 
-        private ImageView mImageView;
+        private  ImageView mImageView;
 
         public DownloadImageTask(ImageView pImageView){
             mImageView = pImageView;
@@ -98,6 +116,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             mImageView.setImageBitmap(bitmap);
+            this.cancel(true);
         }
 
         @Override
