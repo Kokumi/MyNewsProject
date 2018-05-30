@@ -93,11 +93,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mTitle.setText(pNew.getTitle());
             mTheme.setText(pNew.getTheme());
             mDate.setText(formater.format(pNew.getDate()));
-            try {
+            /*try {
                 new DownloadImageTask(mImageView).execute(pNew.getImage());
             }catch (Exception e){
                 Log.d("NO IMAGE"," no image found");
-            }
+            }*/
         }
     }
 
@@ -128,7 +128,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 InputStream in = new java.net.URL(url).openStream();
                 mImage = BitmapFactory.decodeStream(in);
             }catch (Exception e){
-                Log.e("DOWNLOAD TASK ERROR",e.getMessage());
                 e.printStackTrace();
             }
 

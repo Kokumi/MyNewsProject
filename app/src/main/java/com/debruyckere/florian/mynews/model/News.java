@@ -14,16 +14,23 @@ public class News {
     private String mImage;
 
 
-    public News(String titre, String theme, Date date, String url, String image) {
-        mTitle = titre;
+    public News(String title, String description, Date date, String url) {
+        mTitle = title;
+        mDescription = description;
+        mDate = date;
+        mUrl = url;
+    }
+
+    public News(String title, String theme, Date date, String url, String image) {
+        mTitle = title;
         mTheme = theme;
         mDate = date;
         mUrl = url;
         mImage = image;
     }
 
-    public News(String titre, String theme, String description, Date date, String url, String image) {
-        mTitle = titre;
+    public News(String title, String theme, String description, Date date, String url, String image) {
+        mTitle = title;
         mTheme = theme;
         mDescription = description;
         mDate = date;
