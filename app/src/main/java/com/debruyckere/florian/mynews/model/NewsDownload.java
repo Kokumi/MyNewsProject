@@ -2,6 +2,8 @@ package com.debruyckere.florian.mynews.model;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
@@ -13,7 +15,8 @@ import java.util.ArrayList;
  */
 public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
-    ArrayList<News> mNewsList = new ArrayList<>();
+    private ArrayList<News> mNewsList = new ArrayList<>();
+    private InputStream in;
 
     public interface Listeners{
         void onPreExecute();
@@ -37,6 +40,12 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
     @Override
     protected void onPostExecute(ArrayList<News> news) {
         super.onPostExecute(news);
+        /*try {
+            in.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }*/
+
         mCallback.get().onPostExecute(news);
     }
 
@@ -51,12 +60,12 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
             URL url = new URL(aUrl);
 
             HttpURLConnection conn =(HttpURLConnection) url.openConnection();
-            InputStream in = conn.getInputStream();
+            in = conn.getInputStream();
 
             com.debruyckere.florian.mynews.model.JsonParser parser = new com.debruyckere.florian.mynews.model.JsonParser();
             result = parser.JsonParse(in);
 
-            //in.close();
+            in.close();
         }catch (Exception e){
             Log.e("DOWNLOAD TASK ERROR",e.getMessage());
             result = new ArrayList<>();

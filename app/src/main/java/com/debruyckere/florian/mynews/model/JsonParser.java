@@ -35,7 +35,7 @@ public class JsonParser{
             //reader.be();
             while (reader.hasNext()){
                 String name = reader.nextName();
-                //String name2 = reader.nextString();
+
 
                 switch (name){
                     case "title": newTitle=reader.nextString();
@@ -69,7 +69,18 @@ public class JsonParser{
                     case "results":reader.beginArray();
                                     reader.beginObject();
                         break;
-                    default:reader.skipValue();
+                    case "short_url":Log.i("JSON PARSER","Change NEW");
+                                    reader.skipValue();
+                                    reader.endObject();
+                                    try {
+                                        reader.beginObject();
+                                    }catch (IllegalStateException e){
+                                        Log.i("JSON PARSER","end of News");
+                                        reader.endArray();
+                                    }
+                        break;
+                    default:
+                        reader.skipValue();
                         break;
                 }
 
