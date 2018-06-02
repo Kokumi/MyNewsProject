@@ -1,5 +1,6 @@
 package com.debruyckere.florian.mynews.model;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.debruyckere.florian.mynews.R;
+import com.debruyckere.florian.mynews.controller.activity.MainActivity;
+import com.debruyckere.florian.mynews.controller.activity.WebActivity;
 
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -67,6 +70,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         private final TextView mTitle;
         private final TextView mTheme;
         private final TextView mDate;
+        private String mURL= "";
         private News currentNew;
 
         private NewsViewHolder(final View newsView){
@@ -80,7 +84,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             newsView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(newsView.getContext(),"NEWS CLICK",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(newsView.getContext(),mTitle.getText(),Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(newsView.getContext(), WebActivity.class);
+                    intent.putExtra("URL",mURL);
+                    newsView.getContext().startActivity(intent);
                 }
             });
 
@@ -93,6 +100,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mTitle.setText(pNew.getTitle());
             mTheme.setText(pNew.getTheme());
             mDate.setText(formater.format(pNew.getDate()));
+            mURL = pNew.getUrl();
             /*try {
                 new DownloadImageTask(mImageView).execute(pNew.getImage());
             }catch (Exception e){

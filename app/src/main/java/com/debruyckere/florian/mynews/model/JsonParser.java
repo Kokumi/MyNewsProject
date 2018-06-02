@@ -1,10 +1,7 @@
 package com.debruyckere.florian.mynews.model;
 
-import android.accounts.NetworkErrorException;
 import android.util.JsonReader;
 import android.util.Log;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +33,6 @@ public class JsonParser{
             while (reader.hasNext()){
                 String name = reader.nextName();
 
-
                 switch (name){
                     case "title": newTitle=reader.nextString();
                         break;
@@ -53,7 +49,6 @@ public class JsonParser{
                         break;
                     case "body": newBody = reader.nextString();
                         break;
-                    //thumbnail_standard
                     case "thumbnail_standard": newThumbnail = reader.nextString();
                         break;
                     case "section":newTheme = reader.nextString();
