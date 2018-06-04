@@ -2,6 +2,7 @@ package com.debruyckere.florian.mynews.model;
 
 import android.util.JsonReader;
 import android.util.Log;
+import android.widget.Switch;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,16 +23,16 @@ public class JsonParser{
         JsonReader reader = new JsonReader(new InputStreamReader(pStream,"UTF-8"));
         reader.beginObject();
         while(reader.hasNext()){
+
             String newTitle="";
             String newUrl="";
             String newBody="";
             String newTheme="";
-            String newThumbnail = "";
             Date newDate=new Date();
 
-            //reader.be();
             while (reader.hasNext()){
                 String name = reader.nextName();
+                String newThumbnail = "";
 
                 switch (name){
                     case "title": newTitle=reader.nextString();
@@ -56,10 +57,39 @@ public class JsonParser{
                     case "subsection": newTheme += reader.nextString();
                         break;
                     case "multimedia":
+                        Boolean out = true;
+
+                        try {
+                            reader.beginArray();
+                            reader.beginObject();
+                        }catch (IllegalStateException e){
+                            out =false;
+                        }
+                        while(out){
+                            try {
+                                name = reader.nextName();
+                                switch (name) {
+                                    case "url":
+                                        newThumbnail = reader.nextString();
+                                        break;
+                                    case "copyright":
+                                        reader.skipValue();
+                                        reader.endObject();
+                                        reader.beginObject();
+                                        break;
+                                        default: reader.skipValue();
+                                        break;
+                                }
+                            }catch (IllegalStateException e){
+                                reader.endArray();
+                                out = false;
+                            }
+                        }
+
                         theNew = new News(newTitle,newTheme,newDate,newUrl,newThumbnail);
                         result.add(theNew);
                         Log.i("JSON PARSER","add new: "+newTitle);
-                        reader.skipValue();
+                        //reader.skipValue();
                         break;
                     case "results":reader.beginArray();
                                     reader.beginObject();

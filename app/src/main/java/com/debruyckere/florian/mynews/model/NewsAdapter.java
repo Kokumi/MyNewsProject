@@ -101,11 +101,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mTheme.setText(pNew.getTheme());
             mDate.setText(formater.format(pNew.getDate()));
             mURL = pNew.getUrl();
-            /*try {
-                new DownloadImageTask(mImageView).execute(pNew.getImage());
-            }catch (Exception e){
-                Log.d("NO IMAGE"," no image found");
-            }*/
+            if(pNew.getImage()!= "") {
+                try {
+                    new DownloadImageTask(mImageView).execute(pNew.getImage());
+                } catch (Exception e) {
+                    Log.d("NO IMAGE", " no image found");
+                }
+            }
         }
     }
 
@@ -131,12 +133,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         protected Bitmap doInBackground(String... pUrl) {
             String url = pUrl[0];
             Bitmap mImage = null;
-
             try{
+
                 InputStream in = new java.net.URL(url).openStream();
                 mImage = BitmapFactory.decodeStream(in);
             }catch (Exception e){
                 e.printStackTrace();
+
             }
 
             return mImage;

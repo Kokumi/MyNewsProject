@@ -23,7 +23,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BaseFragment extends Fragment implements NewsDownload.Listeners {
+public abstract class BaseFragment extends Fragment implements NewsDownload.Listeners {
 
     public static final String KEY_Position = "position";
     public static final String KEY_Color ="color";
@@ -38,7 +38,7 @@ public class BaseFragment extends Fragment implements NewsDownload.Listeners {
         // Required empty public constructor
     }
 
-    public static BaseFragment newInstance(int position, int color){
+    /*public static BaseFragment newInstance(int position, int color){
         BaseFragment bFrag = new BaseFragment();
         Bundle args=new Bundle();
 
@@ -47,7 +47,7 @@ public class BaseFragment extends Fragment implements NewsDownload.Listeners {
         bFrag.setArguments(args);
 
         return bFrag;
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,27 +58,18 @@ public class BaseFragment extends Fragment implements NewsDownload.Listeners {
         mRecyclerView = result.findViewById(R.id.fragment_recyclerview);
 
         configureRecyclerView();
+        launchDownload();
 
         return result;
     }
 
     public void configureRecyclerView(){
         Log.i("BASE FRAGMENT","configure recyclerView");
-        News testNews = new News("Android P real name is Android Pancake",
-                "Technologie/Android",new Date(),"nep","Place");
-        News testNewsii = new News("Apple is going down",
-                "Technologie/Apple",new Date(),"gnap","pace");
-        ArrayList<News> testArray = new ArrayList<>();
-        testArray.add(testNews);
-        testArray.add(testNewsii);
-
-        //mNewsDownload = new NewsDownload(mCallback);
-        new NewsDownload(this).execute();
-
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(new NewsAdapter(testArray));
+
     }
+
+    public abstract void launchDownload();
 
     @Override
     public void onPreExecute() {

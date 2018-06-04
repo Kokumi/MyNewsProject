@@ -40,4 +40,8 @@ public class PopularFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void launchDownload() {
+
+    }
 }

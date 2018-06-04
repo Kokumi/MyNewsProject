@@ -17,6 +17,7 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
     private ArrayList<News> mNewsList = new ArrayList<>();
     private InputStream in;
+    private String mUrl;
 
     public interface Listeners{
         void onPreExecute();
@@ -26,8 +27,9 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
     private final WeakReference<Listeners> mCallback;
 
-    public NewsDownload(Listeners pCallback){
+    public NewsDownload(Listeners pCallback , String pUrl){
         mCallback = new WeakReference<>(pCallback);
+        mUrl = pUrl;
     }
 
 
@@ -57,7 +59,7 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
         ArrayList<News> result;
 
         try{
-            URL url = new URL(aUrl);
+            URL url = new URL(mUrl);
 
             HttpURLConnection conn =(HttpURLConnection) url.openConnection();
             in = conn.getInputStream();

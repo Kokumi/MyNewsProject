@@ -40,4 +40,8 @@ public class PersonalFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void launchDownload() {
+        
+    }
 }

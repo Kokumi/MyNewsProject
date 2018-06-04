@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.debruyckere.florian.mynews.R;
+import com.debruyckere.florian.mynews.model.NewsDownload;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +21,6 @@ public class TopStoryFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    //@Override
     public static BaseFragment newInstance(int position, int color){
         TopStoryFragment tSF = new TopStoryFragment();
         Bundle args = new Bundle();
@@ -41,4 +41,9 @@ public class TopStoryFragment extends BaseFragment {
         return result;
     }
 
+    @Override
+    public void launchDownload() {
+        new NewsDownload(this, "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631")
+                .execute();
+    }
 }

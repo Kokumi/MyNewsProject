@@ -37,7 +37,7 @@ public class PageAdapter extends FragmentPagerAdapter {
                 break;
             case 2: bF = PersonalFragment.newInstance(position,this.colors[position]);
                 break;
-            default: bF = new BaseFragment();
+            default: bF = TopStoryFragment.newInstance(position,this.colors[position]);
                 break;
         }
         return bF;
