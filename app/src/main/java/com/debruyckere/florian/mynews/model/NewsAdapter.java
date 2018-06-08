@@ -19,6 +19,7 @@ import com.debruyckere.florian.mynews.controller.activity.MainActivity;
 import com.debruyckere.florian.mynews.controller.activity.WebActivity;
 
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
@@ -115,17 +116,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
       Task
      ---------*/
 
-    public class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
+    public static class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
 
-        private  ImageView mImageView;
+        //private ImageView mImageView;
+        private WeakReference<ImageView> mImageView;
 
         public DownloadImageTask(ImageView pImageView){
-            mImageView = pImageView;
+            mImageView = new WeakReference<>(pImageView);
+            //mImageView = pImageView;
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            mImageView.setImageBitmap(bitmap);
+
+            mImageView.get().setImageBitmap(bitmap);
             this.cancel(true);
         }
 

@@ -35,10 +35,8 @@ public class TopStoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View result = super.onCreateView(inflater,container,savedInstanceState);
-
-
-        return result;
+        //View result = super.onCreateView(inflater,container,savedInstanceState);
+        return super.onCreateView(inflater,container,savedInstanceState);
     }
 
     @Override

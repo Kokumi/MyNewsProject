@@ -66,7 +66,7 @@ public abstract class BaseFragment extends Fragment implements NewsDownload.List
     public void configureRecyclerView(){
         Log.i("BASE FRAGMENT","configure recyclerView");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        mRecyclerView.setAdapter(null);
     }
 
     public abstract void launchDownload();

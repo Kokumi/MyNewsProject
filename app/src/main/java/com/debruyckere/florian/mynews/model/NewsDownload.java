@@ -73,7 +73,10 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
             result = new ArrayList<>();
             e.printStackTrace();
         }
-        Log.i("NEWSDownload",result.get(0).getTitle());
+        if(result.size()!=0){Log.i("NEWSDownload","news saved: "+result.size());}
+        else{
+            Log.d("NEWS DOWNLOAD","No news saved");
+        }
 
         return result;
     }

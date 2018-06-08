@@ -7,10 +7,13 @@ import android.widget.Switch;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Debruyckère Florian on 28/05/2018.
@@ -28,20 +31,21 @@ public class JsonParser{
             String newUrl="";
             String newBody="";
             String newTheme="";
+            String newThumbnail = "";
             Date newDate=new Date();
 
             while (reader.hasNext()){
                 String name = reader.nextName();
-                String newThumbnail = "";
+
 
                 switch (name){
                     case "title": newTitle=reader.nextString();
                         break;
                     case "url": newUrl = reader.nextString();
                         break;
-                    case "date":
+                    case "published_date":
                         String xmlDate = reader.nextString();
-                        SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat.getDateInstance();    //new SimpleDateFormat("yyyyMMdd")
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
                         try{
                             newDate = format.parse(xmlDate);
                         }catch (ParseException e){
@@ -49,8 +53,6 @@ public class JsonParser{
                         }
                         break;
                     case "body": newBody = reader.nextString();
-                        break;
-                    case "thumbnail_standard": newThumbnail = reader.nextString();
                         break;
                     case "section":newTheme = reader.nextString();
                         break;
@@ -85,11 +87,58 @@ public class JsonParser{
                                 out = false;
                             }
                         }
-
-                        theNew = new News(newTitle,newTheme,newDate,newUrl,newThumbnail);
-                        result.add(theNew);
-                        Log.i("JSON PARSER","add new: "+newTitle);
                         //reader.skipValue();
+                        break;
+                    case "media":
+                        out = true;
+                        try {
+                            reader.beginArray();
+                            reader.beginObject();
+                        }catch (IllegalStateException e){
+                            out = false;
+                        }
+                        while(out){
+                            try{
+                                name = reader.nextName();
+                                switch (name){
+                                    default:reader.skipValue();
+                                    break;
+                                    case "type":
+                                        if (!reader.nextString().equals("image")) {
+                                            out = false;
+                                        }
+                                    break;
+                                    case "media-metadata":
+                                        reader.beginArray();
+                                        reader.beginObject();
+                                        break;
+                                    case "url": newThumbnail = reader.nextString();
+                                    break;
+                                    case "width":           //last name of the object
+                                        reader.skipValue();
+                                        reader.endObject();
+                                        try {
+                                            reader.beginObject();
+                                        }catch (IllegalStateException e){
+                                            reader.endArray();
+                                            reader.endObject();
+                                        }
+                                        break;
+
+                                }
+
+                            }catch (IllegalStateException e){
+                                reader.endArray();
+                                reader.endObject();
+                                try{
+                                    reader.beginObject();
+                                }catch (IllegalStateException eS){
+                                    reader.endArray();
+                                }
+                                out = false;
+                            }
+                        }
+
                         break;
                     case "results":reader.beginArray();
                                     reader.beginObject();
@@ -108,7 +157,23 @@ public class JsonParser{
                         reader.skipValue();
                         break;
                 }
+                try {
+                    if(!newTitle.equals("") & !newTheme.equals("") &
+                            !newUrl.equals("") & !newThumbnail.equals("")) {
 
+                        theNew = new News(newTitle, newTheme, newDate, newUrl, newThumbnail);
+                        result.add(theNew);
+                        Log.i("JSON PARSER", "add new: " + newTitle);
+
+                        newTitle = "";
+                        newTheme = "";
+                        newUrl = "";
+                        newThumbnail = "";
+                        newDate = new Date();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
         }
