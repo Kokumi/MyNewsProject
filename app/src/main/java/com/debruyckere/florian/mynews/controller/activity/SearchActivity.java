@@ -14,14 +14,13 @@ import com.debruyckere.florian.mynews.R;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        mToolbar = findViewById(R.id.search_toolbar);
+        Toolbar mToolbar = findViewById(R.id.search_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

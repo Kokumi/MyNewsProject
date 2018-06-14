@@ -13,9 +13,6 @@ import butterknife.BindView;
 
 public class WebActivity extends AppCompatActivity {
 
-    //@BindView(R.id.Web_View) WebView mWebView;
-    //private WebView mWebView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

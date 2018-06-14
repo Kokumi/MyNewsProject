@@ -1,9 +1,10 @@
 package com.debruyckere.florian.mynews.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
@@ -15,9 +16,8 @@ import java.util.ArrayList;
  */
 public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
-    private ArrayList<News> mNewsList = new ArrayList<>();
-    private InputStream in;
     private String mUrl;
+    private String mFilterParameterPass="";
 
     public interface Listeners{
         void onPreExecute();
@@ -27,9 +27,17 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
     private final WeakReference<Listeners> mCallback;
 
-    public NewsDownload(Listeners pCallback , String pUrl){
+    public NewsDownload(Listeners pCallback , String pUrl, Context pContext,Boolean pPersonalChoice){
         mCallback = new WeakReference<>(pCallback);
         mUrl = pUrl;
+
+        if(pPersonalChoice){
+            //SharedPreferences prefs = pContext.getSharedPreferences("PARAMETER",Context.MODE_PRIVATE);
+            //mFilterParameterPass = prefs.getString("FilterParameter","");
+
+            //TODO: Create Parameter option
+            mFilterParameterPass = "Politics";   //for test
+        }
     }
 
 
@@ -54,9 +62,8 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
     @Override
     protected ArrayList<News> doInBackground(Void... voids) {
         mCallback.get().doInBackground();
-        String sUrl = "http://api.nytimes.com/svc/search/v1/article?format=json&query=smoking&api-key=1ae7b601c1c7409796be77cce450f631";
-        String aUrl = "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631";
         ArrayList<News> result;
+        InputStream in;
 
         try{
             URL url = new URL(mUrl);
@@ -64,7 +71,7 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
             HttpURLConnection conn =(HttpURLConnection) url.openConnection();
             in = conn.getInputStream();
 
-            com.debruyckere.florian.mynews.model.JsonParser parser = new com.debruyckere.florian.mynews.model.JsonParser();
+            JsonParser parser = new JsonParser(mFilterParameterPass);
             result = parser.JsonParse(in);
 
             in.close();

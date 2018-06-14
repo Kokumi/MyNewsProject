@@ -6,9 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.NewsDownload;
 
 /**
@@ -41,7 +38,8 @@ public class TopStoryFragment extends BaseFragment {
 
     @Override
     public void launchDownload() {
-        new NewsDownload(this, "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631")
+        new NewsDownload(this, "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631",
+                getContext(),false)
                 .execute();
     }
 }

@@ -6,4 +6,5 @@
     <string name="aboutToolbar">About</string>
     <string name="SearchToolbar">Search</string>
     <string name="BackMain">Main</string>
+    <string name="WarningMessage">you should set your personal choice in parameter</string>
 </resources>

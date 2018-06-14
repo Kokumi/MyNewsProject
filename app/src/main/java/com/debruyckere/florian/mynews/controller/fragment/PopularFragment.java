@@ -43,7 +43,8 @@ public class PopularFragment extends BaseFragment {
     @Override
     public void launchDownload() {
         //key: 318107b72537430c89101c53511a08d0 || 318107b72537430c89101c53511a08d0 || 318107b72537430c89101c53511a08d0
-        new NewsDownload(this,"https://api.nytimes.com/svc/mostpopular/v2/mostshared/all-sections/7.json?api-key=318107b72537430c89101c53511a08d0")
+        new NewsDownload(this,"https://api.nytimes.com/svc/mostpopular/v2/mostshared/all-sections/7.json?api-key=318107b72537430c89101c53511a08d0",
+                getContext(),false)
                 .execute();
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.News;
@@ -16,7 +17,6 @@ import com.debruyckere.florian.mynews.model.NewsAdapter;
 import com.debruyckere.florian.mynews.model.NewsDownload;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 
@@ -29,8 +29,7 @@ public abstract class BaseFragment extends Fragment implements NewsDownload.List
     public static final String KEY_Color ="color";
 
     @BindView(R.id.fragment_recyclerview) RecyclerView mRecyclerView;
-    private NewsDownload mNewsDownload;
-
+    @BindView(R.id.fragment_progress) ProgressBar mProgressBar;
     //protected RecyclerView mRecyclerView;
 
 
@@ -56,6 +55,7 @@ public abstract class BaseFragment extends Fragment implements NewsDownload.List
         View result = inflater.inflate(R.layout.fragment_base, container, false);
 
         mRecyclerView = result.findViewById(R.id.fragment_recyclerview);
+        mProgressBar = result.findViewById(R.id.fragment_progress);
 
         configureRecyclerView();
         launchDownload();
@@ -84,5 +84,6 @@ public abstract class BaseFragment extends Fragment implements NewsDownload.List
     @Override
     public void onPostExecute(ArrayList<News> news) {
         mRecyclerView.setAdapter(new NewsAdapter(news));
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 }

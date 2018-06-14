@@ -14,14 +14,14 @@ import com.debruyckere.florian.mynews.R;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        mToolbar = findViewById(R.id.about_toolbar);
+        Toolbar mToolbar = findViewById(R.id.about_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

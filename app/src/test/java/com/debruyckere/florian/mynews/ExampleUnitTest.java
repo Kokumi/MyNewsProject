@@ -63,7 +63,7 @@ public class ExampleUnitTest {
     @Test
     public void jsonParseTest(){
         ArrayList<News> toTest = new ArrayList<>();
-        JsonParser parser = new JsonParser();
+        JsonParser parser = new JsonParser("");
 
 
         try{

@@ -2,16 +2,13 @@ package com.debruyckere.florian.mynews.model;
 
 import android.util.JsonReader;
 import android.util.Log;
-import android.widget.Switch;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -19,6 +16,17 @@ import java.util.Locale;
  * Created by Debruyckère Florian on 28/05/2018.
  */
 public class JsonParser{
+
+    private String mFilterParameter;
+    private Boolean mPersonal=false;
+
+    public JsonParser(String pFilterParameter){
+        mFilterParameter = pFilterParameter;
+        if(!mFilterParameter.equals("")){
+            mPersonal = true;
+        }
+    }
+
     public ArrayList<News> JsonParse(InputStream pStream) throws IOException {
         ArrayList<News> result = new ArrayList<>();
         News theNew;
@@ -29,8 +37,8 @@ public class JsonParser{
 
             String newTitle="";
             String newUrl="";
-            String newBody="";
             String newTheme="";
+            String newSubTheme="";
             String newThumbnail = "";
             Date newDate=new Date();
 
@@ -52,11 +60,9 @@ public class JsonParser{
                             Log.e("DATE PARSING",e.getMessage());
                         }
                         break;
-                    case "body": newBody = reader.nextString();
-                        break;
                     case "section":newTheme = reader.nextString();
                         break;
-                    case "subsection": newTheme += reader.nextString();
+                    case "subsection": newSubTheme = reader.nextString();
                         break;
                     case "multimedia":
                         Boolean out = true;
@@ -159,14 +165,26 @@ public class JsonParser{
                 }
                 try {
                     if(!newTitle.equals("") & !newTheme.equals("") &
-                            !newUrl.equals("") & !newThumbnail.equals("")) {
+                            !newUrl.equals("") & !newThumbnail.equals("") & !newSubTheme.equals("")) {
 
-                        theNew = new News(newTitle, newTheme, newDate, newUrl, newThumbnail);
-                        result.add(theNew);
-                        Log.i("JSON PARSER", "add new: " + newTitle);
+                        if(mPersonal){
+                            //if parse for personal fragment
+                            if(newSubTheme.equals(mFilterParameter) ){
+
+                                theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
+                                result.add(theNew);
+                                Log.i("JSON PARSER", "add new: " + newTitle);
+                            }
+
+                        }else{
+                            theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
+                            result.add(theNew);
+                            Log.i("JSON PARSER", "add new: " + newTitle);
+                        }
 
                         newTitle = "";
                         newTheme = "";
+                        newSubTheme="";
                         newUrl = "";
                         newThumbnail = "";
                         newDate = new Date();

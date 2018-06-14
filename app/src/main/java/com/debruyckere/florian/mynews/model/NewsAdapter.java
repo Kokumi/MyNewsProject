@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.debruyckere.florian.mynews.R;
-import com.debruyckere.florian.mynews.controller.activity.MainActivity;
 import com.debruyckere.florian.mynews.controller.activity.WebActivity;
 
 import java.io.InputStream;
@@ -28,9 +27,7 @@ import java.util.ArrayList;
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private ArrayList<News> mNewsArrayList = new ArrayList<>();
-
-    public NewsAdapter(){}
+    private ArrayList<News> mNewsArrayList ;
 
     public NewsAdapter(ArrayList<News> pNews){
         mNewsArrayList = pNews;
@@ -72,7 +69,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         private final TextView mTheme;
         private final TextView mDate;
         private String mURL= "";
-        private News currentNew;
 
         private NewsViewHolder(final View newsView){
             super(newsView);
@@ -97,12 +93,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         private void display(News pNew){
             DateFormat formater = DateFormat.getDateInstance();
 
-            currentNew = pNew;
             mTitle.setText(pNew.getTitle());
             mTheme.setText(pNew.getTheme());
             mDate.setText(formater.format(pNew.getDate()));
             mURL = pNew.getUrl();
-            if(pNew.getImage()!= "") {
+            if(!pNew.getImage().equals("") ) {
                 try {
                     new DownloadImageTask(mImageView).execute(pNew.getImage());
                 } catch (Exception e) {
