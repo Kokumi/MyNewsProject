@@ -24,7 +24,6 @@ public class AboutActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.about_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     @Override
@@ -45,6 +44,11 @@ public class AboutActivity extends AppCompatActivity {
 
             case R.id.toolbar_about:
                 Toast.makeText(this,"You are already there",Toast.LENGTH_LONG).show();
+                return true;
+
+            case R.id.toolbar_notification:
+                Intent intentNotification = new Intent(this, NotificationActivity.class);
+                startActivity(intentNotification);
                 return true;
 
             case 16908332:      //button home

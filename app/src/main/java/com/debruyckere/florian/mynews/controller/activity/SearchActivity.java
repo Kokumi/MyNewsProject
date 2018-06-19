@@ -46,6 +46,11 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intentAbout);
                 return true;
 
+            case R.id.toolbar_notification:
+                Intent intentNotification = new Intent(this, NotificationActivity.class);
+                startActivity(intentNotification);
+                return true;
+
             case 16908332:      //button home
                 this.finish();
                 return true;

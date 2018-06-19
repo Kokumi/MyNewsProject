@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".controller.activity.SearchActivity" />
         <activity android:name=".controller.activity.AboutActivity" />
-        <activity android:name=".controller.activity.WebActivity"></activity>
+        <activity android:name=".controller.activity.WebActivity" />
+        <activity android:name=".controller.activity.NotificationActivity"></activity>
     </application>
 
 </manifest>

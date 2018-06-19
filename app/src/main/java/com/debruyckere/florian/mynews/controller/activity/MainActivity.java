@@ -63,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intentAbout=new Intent(this, AboutActivity.class);
                 startActivity(intentAbout);
                 return true;
+
+            case R.id.toolbar_notification:
+                Intent intentNotification = new Intent(this,NotificationActivity.class);
+                startActivity(intentNotification);
+                return true;
+
             default:
                 Log.d("OPTION SELECT","Default item selected");
                 return super.onOptionsItemSelected(item);

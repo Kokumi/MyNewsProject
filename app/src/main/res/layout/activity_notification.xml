@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".controller.activity.NotificationActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/notification_toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/notification_search_term"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="@string/notificationTermSearch"
+        android:inputType="text"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/notification_politics"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationPolitics" />
+
+        <CheckBox
+            android:id="@+id/notification_arts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationArts"
+            android:layout_marginStart="100dp"
+            android:layout_toEndOf="@id/notification_politics"/>
+        <CheckBox
+            android:id="@+id/notification_sports"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationSport"
+            android:layout_below="@id/notification_politics"
+            android:layout_marginTop="10dp"/>
+        <CheckBox
+            android:id="@+id/notification_business"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationBusiness"
+            android:layout_toEndOf="@id/notification_sports"
+            android:layout_below="@id/notification_arts"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="100dp"/>
+        <CheckBox
+            android:id="@+id/notification_travel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationTravel"
+            android:layout_below="@id/notification_sports"
+            android:layout_marginTop="10dp"/>
+        <CheckBox
+            android:id="@+id/notification_entrepreneurs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationSport"
+            android:layout_below="@id/notification_business"
+            android:layout_toEndOf="@id/notification_travel"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+
+    <Switch
+        android:id="@+id/notification_enable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notificationEnable"
+        android:layout_margin="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/notificationInformation"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textStyle="bold"/>
+
+</LinearLayout>

@@ -3,19 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:icon="@drawable/ic_launcher_background"
-        android:id="@+id/toolbar_back"
-        android:title="@string/BackMain">
-    </item>
-
-    <item
         android:id="@+id/toolbar_search"
         app:showAsAction="always"
-        android:title="@string/SearchToolbar">
+        android:title="@string/SearchToolbar"
+        android:icon="@android:drawable/ic_menu_search">
     </item>
     <item
         android:id="@+id/toolbar_about"
         android:title="@string/aboutToolbar"
-        app:showAsAction="ifRoom"> </item>
+        app:showAsAction="never"> </item>
+
+    <item
+        android:id="@+id/toolbar_notification"
+        android:title="@string/notificationToolbar"
+        app:showAsAction="never">
+    </item>
 
 </menu>
