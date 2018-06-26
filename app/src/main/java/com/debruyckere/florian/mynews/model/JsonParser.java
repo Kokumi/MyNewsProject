@@ -19,12 +19,27 @@ public class JsonParser{
 
     private String mFilterParameter;
     private Boolean mPersonal=false;
+    private ArrayList<String> mParamFilter = new ArrayList<>();
+    private String mParamNewsName;
 
     public JsonParser(String pFilterParameter){
         mFilterParameter = pFilterParameter;
         if(!mFilterParameter.equals("")){
             mPersonal = true;
         }
+    }
+
+    public JsonParser(ArrayList<String> pParam, Boolean pPersonal, String pParamNewsName){
+        Log.i("JSON PARSER","Constructeur with ");
+        mParamFilter = pParam;
+        mPersonal = pPersonal;
+        mParamNewsName = pParamNewsName;
+        try{
+            Log.i("Json Parser create",mParamNewsName);
+        }catch (NullPointerException e){
+            Log.i("Json parser Create","no paramName");
+        }
+
     }
 
     public ArrayList<News> JsonParse(InputStream pStream) throws IOException {
@@ -165,15 +180,22 @@ public class JsonParser{
                 }
                 try {
                     if(!newTitle.equals("") & !newTheme.equals("") &
-                            !newUrl.equals("") & !newThumbnail.equals("") & !newSubTheme.equals("")) {
+                            !newUrl.equals("") & !newThumbnail.equals("") ) {   //& !newSubTheme.equals("")
 
-                        if(mPersonal){
+                        if(mPersonal ){
+                            int index = 0;
                             //if parse for personal fragment
-                            if(newSubTheme.equals(mFilterParameter) ){
+                            while(mParamFilter.size() > index){
 
-                                theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
-                                result.add(theNew);
-                                Log.i("JSON PARSER", "add new: " + newTitle);
+                                if(newSubTheme.equals(mParamFilter.get(index)) & newTitle.contains(mParamNewsName) ){
+
+                                    theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
+                                    result.add(theNew);
+                                    Log.i("JSON PARSER", "add new: " + newTitle);
+                                    break;
+                                }
+
+                                index++;
                             }
 
                         }else{

@@ -1,7 +1,10 @@
 package com.debruyckere.florian.mynews.controller.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -238,4 +241,25 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
+    /*------------
+      Notification
+      ------------*/
+
+    public void createNotificationChannel(){
+        CharSequence name = "MyNews Channel";
+        String description = "Channel use for Notification of MyNews app";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("MyNewsChannel",name,importance);
+        channel.setDescription(description);
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+    }
+
+    public void NotificationConfiguration(){
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,"MyNewsChannel")
+                .setContentTitle("MyNews new news")
+                .setContentText("A new news has arrived")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    }
 }

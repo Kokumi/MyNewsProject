@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -18,6 +19,10 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
     private String mUrl;
     private String mFilterParameterPass="";
+    private String mParamNewsName;
+    private Boolean mPersonal;
+    private SharedPreferences mPrefs;
+    private ArrayList<String> mParam = new ArrayList<>();
 
     public interface Listeners{
         void onPreExecute();
@@ -30,12 +35,14 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
     public NewsDownload(Listeners pCallback , String pUrl, Context pContext,Boolean pPersonalChoice){
         mCallback = new WeakReference<>(pCallback);
         mUrl = pUrl;
+        mPersonal = pPersonalChoice;
 
         if(pPersonalChoice){
-            //SharedPreferences prefs = pContext.getSharedPreferences("PARAMETER",Context.MODE_PRIVATE);
+            mPrefs = pContext.getSharedPreferences("PARAMETER",Context.MODE_PRIVATE);
             //mFilterParameterPass = prefs.getString("FilterParameter","");
 
-            //TODO: Create Parameter option
+            SharedLoader();
+
             mFilterParameterPass = "Politics";   //for test
         }
     }
@@ -65,13 +72,15 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
         ArrayList<News> result;
         InputStream in;
 
+
         try{
             URL url = new URL(mUrl);
 
             HttpURLConnection conn =(HttpURLConnection) url.openConnection();
             in = conn.getInputStream();
 
-            JsonParser parser = new JsonParser(mFilterParameterPass);
+            //JsonParser parser = new JsonParser(mFilterParameterPass);
+            JsonParser parser = new JsonParser(mParam,mPersonal,mParamNewsName);
             result = parser.JsonParse(in);
 
             in.close();
@@ -86,5 +95,25 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
         }
 
         return result;
+
+    }
+
+    public void SharedLoader(){
+
+        try{
+            int index = 0;
+
+            mParamNewsName = mPrefs.getString("paramSearch",null);
+            while(index <= 6){
+                if(mPrefs.getBoolean("paramValue"+index,false)){
+                    mParam.add(mPrefs.getString("paramName"+index,null));
+                }
+
+                index++;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }
