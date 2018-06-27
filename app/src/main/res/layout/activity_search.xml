@@ -15,9 +15,92 @@
         android:background="@color/colorPrimaryDark">
     </android.support.v7.widget.Toolbar>
 
-    <TextView
+    <EditText
+        android:id="@+id/search_search_term"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="@string/notificationTermSearch"
+        android:inputType="text"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/search_begintext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searchBeginDate"
+            android:layout_marginStart="10dp"/>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searchEndDate"
+            android:layout_marginStart="200dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to search"/>
+        android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:id="@+id/search_politics"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationPolitics" />
+
+        <CheckBox
+            android:id="@+id/search_arts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationArts"
+            android:layout_marginStart="100dp"
+            android:layout_toEndOf="@id/search_politics"/>
+        <CheckBox
+            android:id="@+id/search_sports"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationSport"
+            android:layout_below="@id/search_politics"
+            android:layout_marginTop="10dp"/>
+        <CheckBox
+            android:id="@+id/search_business"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationBusiness"
+            android:layout_toEndOf="@id/search_sports"
+            android:layout_below="@id/search_arts"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="100dp"/>
+        <CheckBox
+            android:id="@+id/search_travel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationTravel"
+            android:layout_below="@id/search_sports"
+            android:layout_marginTop="10dp"/>
+        <CheckBox
+            android:id="@+id/search_entrepreneurs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notificationSport"
+            android:layout_below="@id/search_business"
+            android:layout_toEndOf="@id/search_travel"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="50dp"
+        android:text="@string/searchButtonText"/>
 
 </LinearLayout>
