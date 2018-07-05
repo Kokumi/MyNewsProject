@@ -3,6 +3,7 @@
     package="com.debruyckere.florian.mynews">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -21,7 +22,7 @@
         <activity android:name=".controller.activity.SearchActivity" />
         <activity android:name=".controller.activity.AboutActivity" />
         <activity android:name=".controller.activity.WebActivity" />
-        <activity android:name=".controller.activity.NotificationActivity"></activity>
+        <activity android:name=".controller.activity.NotificationActivity"/>
     </application>
 
 </manifest>

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
     private String mUrl;
-    private String mFilterParameterPass="";
     private String mParamNewsName;
     private Boolean mPersonal;
     private SharedPreferences mPrefs;
@@ -42,8 +41,34 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
             //mFilterParameterPass = prefs.getString("FilterParameter","");
 
             SharedLoader();
+        }
+    }
 
-            mFilterParameterPass = "Politics";   //for test
+    public NewsDownload(Listeners pCallback,String pUrl, String pSearchTerm, ArrayList<Boolean> pChoiceList){
+        mCallback = new WeakReference<>(pCallback);
+        mParamNewsName = pSearchTerm;
+        mUrl = pUrl;
+        mPersonal = true;
+
+        int index = 0;
+        while(index <pChoiceList.size()){
+            if(pChoiceList.get(index)){
+                switch (index){
+                    case 0:mParam.add("Arts");
+                    break;
+                    case 1: mParam.add("Business");
+                    break;
+                    case 2: mParam.add("Politics");
+                    break;
+                    case 3: mParam.add("Travels");
+                    break;
+                    case 4: mParam.add("Sports");
+                    break;
+                    case 5: mParam.add("Entrepreneurs");
+                }
+            }
+
+            index++;
         }
     }
 

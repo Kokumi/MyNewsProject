@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/search_layout"
     tools:context=".controller.activity.SearchActivity">
 
     <android.support.v7.widget.Toolbar
@@ -21,27 +22,6 @@
         android:layout_height="50dp"
         android:hint="@string/notificationTermSearch"
         android:inputType="text"/>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/search_begintext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/searchBeginDate"
-            android:layout_marginStart="10dp"/>
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/searchEndDate"
-            android:layout_marginStart="200dp"/>
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"

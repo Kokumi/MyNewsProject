@@ -183,19 +183,32 @@ public class JsonParser{
                             !newUrl.equals("") & !newThumbnail.equals("") ) {   //& !newSubTheme.equals("")
 
                         if(mPersonal ){
-                            int index = 0;
-                            //if parse for personal fragment
-                            while(mParamFilter.size() > index){
 
-                                if(newSubTheme.equals(mParamFilter.get(index)) & newTitle.contains(mParamNewsName) ){
+
+
+
+                            if(mParamFilter.size() != 0) {              //verify if there a theme as been choose
+                                int index = 0;
+                                while (mParamFilter.size() > index) {
+
+                                    if (newSubTheme.equals(mParamFilter.get(index)) & newTitle.contains(mParamNewsName)) {
+
+                                        theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
+                                        result.add(theNew);
+                                        Log.i("JSON PARSER", "add new: " + newTitle);
+                                        break;
+                                    }
+
+                                    index++;
+                                }
+                            }else{
+                                if (newTitle.contains(mParamNewsName)) {
 
                                     theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                                     result.add(theNew);
                                     Log.i("JSON PARSER", "add new: " + newTitle);
                                     break;
                                 }
-
-                                index++;
                             }
 
                         }else{
