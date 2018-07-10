@@ -1,7 +1,8 @@
 language: java
 
 install:
- gradle assemble
+ - gradle assemble
+ - ./gradlew assemble
 
 before_install:
  - chmod +x gradlew
