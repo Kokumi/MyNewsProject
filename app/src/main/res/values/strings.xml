@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">MyNews</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aboutToolbar">About</string>
     <string name="SearchToolbar">Search</string>
@@ -20,4 +19,13 @@
     <string name="searchButtonText">Search</string>
     <string name="searchBeginDate">Begin Date</string>
     <string name="searchEndDate">End Date</string>
+    <string name="aboutTitle">MyNews</string>
+    <string name="aboutText">MyNews is a application which show the last news of the newspaper "New York Times"\n\n
+    This application has three tab:\n
+    - the first tab show the last news.\n
+    - the second tab show the most shared news of the last seven days.\n
+    - the third tab show the news according your preference.\n
+    This preference must be set first in the notification screen\n\n
+
+    MyNews can notify when he receive a news who agrees to your preference, you can activate this functionality in the notification screen</string>
 </resources>
