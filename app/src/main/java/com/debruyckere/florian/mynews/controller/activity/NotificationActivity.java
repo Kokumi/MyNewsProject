@@ -31,7 +31,7 @@ public class NotificationActivity extends AppCompatActivity {
     @BindView(R.id.notification_politics)CheckBox mPoliticsBox;
     @BindView(R.id.notification_travel)CheckBox mTravelsBox;
     @BindView(R.id.notification_sports)CheckBox mSportsBox;
-    @BindView(R.id.notification_entrepreneurs)CheckBox mEntrepreneursBox;
+    @BindView(R.id.notification_climate)CheckBox mClimateBox;
     @BindView(R.id.notification_enable)Switch mEnableSwitch;
     private ArrayList<CheckBox> CheckboxList = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class NotificationActivity extends AppCompatActivity {
         mPoliticsBox = findViewById(R.id.notification_politics);
         mTravelsBox = findViewById(R.id.notification_travel);
         mSportsBox = findViewById(R.id.notification_sports);
-        mEntrepreneursBox = findViewById(R.id.notification_entrepreneurs);
+        mClimateBox = findViewById(R.id.notification_entrepreneurs);
         mEnableSwitch = findViewById(R.id.notification_enable);
                                             //index
         CheckboxList.add(mArtsBox);         //0
@@ -56,7 +56,7 @@ public class NotificationActivity extends AppCompatActivity {
         CheckboxList.add(mPoliticsBox);     //2
         CheckboxList.add(mTravelsBox);      //3
         CheckboxList.add(mSportsBox);       //4
-        CheckboxList.add(mEntrepreneursBox);//5
+        CheckboxList.add(mClimateBox);//5
 
         configureListener();
         SharedLoader();
@@ -150,7 +150,7 @@ public class NotificationActivity extends AppCompatActivity {
             }
         });
 
-        mEntrepreneursBox.setOnClickListener(new View.OnClickListener() {
+        mClimateBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedSaver(5);

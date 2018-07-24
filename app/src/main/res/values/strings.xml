@@ -12,7 +12,7 @@
     <string name="notificationPolitics">Politics</string>
     <string name="notificationBusiness">Business</string>
     <string name="notificationSport">Sports</string>
-    <string name="notificationEntrepreneurs">Entrepreneurs</string>
+    <string name="notificationClimate">Climate</string>
     <string name="notificationTravel">Travel</string>
     <string name="notificationEnable">Enable notifications (once per day)</string>
     <string name="notificationInformation">Set these parameter for enable personal news</string>

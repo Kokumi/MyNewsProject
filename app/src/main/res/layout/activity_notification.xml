@@ -8,7 +8,6 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/notification_toolbar"
-        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark">
@@ -62,10 +61,10 @@
             android:layout_below="@id/notification_sports"
             android:layout_marginTop="10dp"/>
         <CheckBox
-            android:id="@+id/notification_entrepreneurs"
+            android:id="@+id/notification_climate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notificationSport"
+            android:text="@string/notificationClimate"
             android:layout_below="@id/notification_business"
             android:layout_toEndOf="@id/notification_travel"
             android:layout_marginStart="100dp"

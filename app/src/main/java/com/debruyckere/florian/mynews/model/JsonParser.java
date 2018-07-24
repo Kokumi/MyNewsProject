@@ -189,9 +189,9 @@ public class JsonParser{
 
                             if(mParamFilter.size() != 0) {              //verify if there a theme as been choose
                                 int index = 0;
+                                String filterTheme=newTheme+newSubTheme;
                                 while (mParamFilter.size() > index) {
-
-                                    if (newSubTheme.equals(mParamFilter.get(index)) & newTitle.contains(mParamNewsName)) {
+                                    if (filterTheme.contains(mParamFilter.get(index)) & newTitle.contains(mParamNewsName)) {
 
                                         theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                                         result.add(theNew);
