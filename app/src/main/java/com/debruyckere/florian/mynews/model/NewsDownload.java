@@ -64,7 +64,7 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
                     break;
                     case 4: mParam.add("Sports");
                     break;
-                    case 5: mParam.add("Entrepreneurs");
+                    case 5: mParam.add("Climate");
                 }
             }
 

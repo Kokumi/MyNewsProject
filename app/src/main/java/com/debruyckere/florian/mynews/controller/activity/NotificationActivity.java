@@ -48,7 +48,7 @@ public class NotificationActivity extends AppCompatActivity {
         mPoliticsBox = findViewById(R.id.notification_politics);
         mTravelsBox = findViewById(R.id.notification_travel);
         mSportsBox = findViewById(R.id.notification_sports);
-        mClimateBox = findViewById(R.id.notification_entrepreneurs);
+        mClimateBox = findViewById(R.id.notification_climate);
         mEnableSwitch = findViewById(R.id.notification_enable);
                                             //index
         CheckboxList.add(mArtsBox);         //0
@@ -56,7 +56,7 @@ public class NotificationActivity extends AppCompatActivity {
         CheckboxList.add(mPoliticsBox);     //2
         CheckboxList.add(mTravelsBox);      //3
         CheckboxList.add(mSportsBox);       //4
-        CheckboxList.add(mClimateBox);//5
+        CheckboxList.add(mClimateBox);      //5
 
         configureListener();
         SharedLoader();
