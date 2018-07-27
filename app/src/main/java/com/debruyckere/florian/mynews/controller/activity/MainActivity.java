@@ -9,10 +9,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +25,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.News;
@@ -32,10 +38,12 @@ import java.util.Date;
 
 import butterknife.BindView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.main_toolbar) Toolbar mToolbar;
     @BindView(R.id.main_tabs)TabLayout mTab;
+    @BindView(R.id.main_navigation) NavigationView mNavigationView;
+    @BindView(R.id.main_layout)DrawerLayout mLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +52,14 @@ public class MainActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.main_toolbar);
         mTab = findViewById(R.id.main_tabs);
+        mLayout = findViewById(R.id.main_layout);
         setSupportActionBar(mToolbar);
 
         configureViewPager();
         createNotificationChannel();
         configureAlarmManager();
+        configureDrawerLayout();
+        configureNavigationView();
     }
 
     private void configureViewPager(){
@@ -170,6 +181,45 @@ public class MainActivity extends AppCompatActivity {
                 NotificationManagerCompat notiManager = NotificationManagerCompat.from(getBaseContext());
                 notiManager.notify(0,NotificationConfiguration().build());
             }
+        }
+    }
+
+    private void configureDrawerLayout(){
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    public void configureNavigationView(){
+        mNavigationView = findViewById(R.id.main_navigation);
+        mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.main_drawer_news:
+                break;
+            case R.id.main_drawer_notification:
+                break;
+            case R.id.main_drawer_search:
+                break;
+            default:
+                break;
+
+        }
+        //this.
+
+        return true;
+    }
+    @Override
+    public void onBackPressed(){
+        if(this.mLayout.isDrawerOpen(GravityCompat.START)){
+            this.mLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
         }
     }
 }
