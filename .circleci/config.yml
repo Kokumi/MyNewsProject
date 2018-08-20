@@ -1,0 +1,76 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "build.gradle" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: gradle dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+
+     # Download and install Android SDK
+RUN sudo mkdir -p ${android_home} && \
+    sudo chown -R circleci:circleci ${android_home} && \
+    curl --silent --show-error --location --fail --retry 3 --output /tmp/${sdk_version} https://dl.google.com/android/repository/${sdk_version} && \
+    unzip -q /tmp/${sdk_version} -d ${android_home} && \
+    rm /tmp/${sdk_version}
+
+# Set environmental variables
+ENV ANDROID_HOME ${android_home}
+ENV ADB_INSTALL_TIMEOUT 120
+ENV PATH=${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
+
+RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg
+
+RUN sdkmanager --update && yes | sdkmanager --licenses
+
+# Update SDK manager and install system image, platform and build tools
+RUN sdkmanager \
+  "tools" \
+  "platform-tools" \
+  "emulator" \
+  "extras;android;m2repository" \
+  "extras;google;m2repository" \
+  "extras;google;google_play_services"
+
+RUN sdkmanager \
+  "build-tools;25.0.0" \
+  "build-tools;25.0.1" \
+  "build-tools;25.0.2" \
+  "build-tools;25.0.3" \
+  "build-tools;26.0.1"
+
+RUN sdkmanager "platforms;android-API_LEVEL"
+        
+      # run tests!
+      - run: gradle test
