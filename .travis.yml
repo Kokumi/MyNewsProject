@@ -10,3 +10,9 @@ before_install:
 script:
  - gradle check
  - ./gradlew check
+
+android:
+ components:
+ licenses:
+   - android-sdk-preview-license-.+
+   - android-sdk-license-.+
