@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureAlarmManager();
         configureDrawerLayout();
         configureNavigationView();
+        
     }
 
     private void configureViewPager(){
@@ -174,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public void onPostExecute(ArrayList<News> news) {
-            if(news.size()== 0){
+            if(news.size()!= 0){
                 //launch notification
                 Log.i("ALARM","there new news");
 
