@@ -8,7 +8,7 @@ before_install:
  - chmod +x gradlew
 
 script:
- - gradle check
+ - gradle connectCheck
  - ./gradlew check
 
 android:
@@ -17,7 +17,7 @@ android:
    - android-26
    - sys-img-armeabi-v7a-android-tv-l
    - add-on
-   - extra
+   - extra-android-m2repository
    - tools
    - platform-tools
    - tools
