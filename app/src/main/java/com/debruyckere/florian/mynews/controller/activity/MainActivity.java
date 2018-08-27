@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureAlarmManager();
         configureDrawerLayout();
         configureNavigationView();
-        
+
     }
 
     private void configureViewPager(){
