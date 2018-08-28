@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.main_navigation) NavigationView mNavigationView;
     @BindView(R.id.main_layout)DrawerLayout mLayout;
 
+    //to comment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
