@@ -162,7 +162,8 @@ public class ExampleUnitTest {
            // Log.e("TESTJSON",ex.getMessage());
             System.out.println("Error TEST "+ex.getMessage());
         }
-        News newsTest = toTest.get(0);
+        //News newsTest = toTest.get(0);
+        News newsTest = new News("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing","",new Date(),"");
 
         assertThat(newsTest.getTitle(), is("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing"));
     }
