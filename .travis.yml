@@ -18,9 +18,6 @@ android:
    - sys-img-armeabi-v7a-android-tv-l
    - add-on
    - extra-android-m2repository
-   - tools
-   - platform-tools
-   - tools
  licenses:
    - android-sdk-preview-license-.+
    - android-sdk-license-.+
