@@ -10,7 +10,6 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/search_toolbar"
-        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark">
@@ -65,10 +64,10 @@
             android:layout_below="@id/search_sports"
             android:layout_marginTop="10dp"/>
         <CheckBox
-            android:id="@+id/search_entrepreneurs"
+            android:id="@+id/search_climate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notificationSport"
+            android:text="@string/notificationClimate"
             android:layout_below="@id/search_business"
             android:layout_toEndOf="@id/search_travel"
             android:layout_marginStart="100dp"

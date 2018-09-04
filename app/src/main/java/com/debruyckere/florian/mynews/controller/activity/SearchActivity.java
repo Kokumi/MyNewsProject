@@ -28,7 +28,7 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.search_politics)CheckBox mPoliticsBox;
     @BindView(R.id.search_travel)CheckBox mTravelsBox;
     @BindView(R.id.search_sports)CheckBox mSportsBox;
-    @BindView(R.id.search_entrepreneurs)CheckBox mEntrepreneursBox;
+    @BindView(R.id.search_climate)CheckBox mClimateBox;
     @BindView(R.id.search_button)Button mSearchButton;
 
 
@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity {
         mPoliticsBox = findViewById(R.id.search_politics);
         mTravelsBox = findViewById(R.id.search_travel);
         mSportsBox = findViewById(R.id.search_sports);
-        mEntrepreneursBox = findViewById(R.id.search_entrepreneurs);
+        mClimateBox = findViewById(R.id.search_climate);
         mSearchButton = findViewById(R.id.search_button);
 
         configureListener();
@@ -125,8 +125,8 @@ public class SearchActivity extends AppCompatActivity {
         if(mSportsBox.isChecked()){
             bundle.putBoolean("SEARCHSPORT",mSportsBox.isChecked());
         }
-        if(mEntrepreneursBox.isChecked()){
-            bundle.putBoolean("SEARCHENTREPRENEUR",mEntrepreneursBox.isChecked());
+        if(mClimateBox.isChecked()){
+            bundle.putBoolean("SEARCHCLIMATE",mClimateBox.isChecked());
         }
 
         intent.putExtra("SEARCHBUNDKE",bundle);

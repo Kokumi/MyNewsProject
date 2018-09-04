@@ -49,14 +49,14 @@ public class SearchResultFragment extends BaseFragment {
         Boolean mPolitics = pArgs.getBoolean("SEARCHPOLITICS",false);
         Boolean mTravel = pArgs.getBoolean("SEARCHTRAVEL",false);
         Boolean mSport = pArgs.getBoolean("SEARCHSPORT",false);
-        Boolean mEntrepreneur = pArgs.getBoolean("SEARCHENTREPRENEUR",false);
+        Boolean mClimate = pArgs.getBoolean("SEARCHCLIMATE",false);
 
         mBoolList.add(mArt);
         mBoolList.add(mBusiness);
         mBoolList.add(mPolitics);
         mBoolList.add(mTravel);
         mBoolList.add(mSport);
-        mBoolList.add(mEntrepreneur);
+        mBoolList.add(mClimate);
     }
 
     @Override

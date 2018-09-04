@@ -187,11 +187,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     private void configureDrawerLayout(){
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
+
+
+    /*-----------------
+     Navigation Drawer
+     ------------------*/
+
 
     public void configureNavigationView(){
         mNavigationView = findViewById(R.id.main_navigation);
@@ -201,13 +208,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        Intent navigationIntent;
 
         switch (id){
-            case R.id.main_drawer_news:
+            /*case R.id.main_drawer_news: Intent navigationIntent = new Intent(this, MainActivity.class);
+                startActivity(navigationIntent);
+                break;*/
+            case R.id.main_drawer_notification:navigationIntent = new Intent(this, NotificationActivity.class);
+                startActivity(navigationIntent);
                 break;
-            case R.id.main_drawer_notification:
-                break;
-            case R.id.main_drawer_search:
+            case R.id.main_drawer_search:navigationIntent = new Intent(this, SearchActivity.class);
+                startActivity(navigationIntent);
                 break;
             default:
                 break;
