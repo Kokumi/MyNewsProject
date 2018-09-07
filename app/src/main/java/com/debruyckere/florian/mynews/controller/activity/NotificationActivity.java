@@ -60,14 +60,15 @@ public class NotificationActivity extends AppCompatActivity {
 
         configureListener();
         SharedLoader();
-
-
     }
 
     /*------------
      Toolbar
       ------------*/
 
+    /**
+     * create Toolbar
+     */
     public void configureToolbar(){
         Toolbar mToolbar = findViewById(R.id.notification_toolbar);
         setSupportActionBar(mToolbar);
@@ -75,6 +76,11 @@ public class NotificationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * create toolbar's option
+     * @param menu toolbar's menu
+     * @return toolbar's options
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -83,6 +89,11 @@ public class NotificationActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * add reaction to toolbar's option
+     * @param item toolbar's option
+     * @return good execution rapport
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -114,6 +125,9 @@ public class NotificationActivity extends AppCompatActivity {
       Configuration
       ---------------*/
 
+    /**
+     * configure reaction to checkbox
+     */
     public void configureListener(){
         mArtsBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +181,7 @@ public class NotificationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                // save to shared parameter the entry
                 SharedPreferences.Editor editor = getSharedPreferences("PARAMETER",MODE_PRIVATE).edit();
                 editor.putString("paramSearch",mSearchTerm.getText().toString());
                 editor.apply();
@@ -176,6 +191,7 @@ public class NotificationActivity extends AppCompatActivity {
         mEnableSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // save to shared parameter the status of the switch
                 SharedPreferences.Editor editor = getSharedPreferences("PARAMETER",MODE_PRIVATE).edit();
                 editor.putBoolean("paramEnable",mEnableSwitch.isChecked());
                 editor.apply();
@@ -187,6 +203,9 @@ public class NotificationActivity extends AppCompatActivity {
       Shared Preferences
      ------------------*/
 
+    /**
+     * Load parameter save in SharedPreference
+     */
     public void SharedLoader(){
         SharedPreferences mPrefs = getSharedPreferences("PARAMETER", MODE_PRIVATE);
         int indexParam = 0;
@@ -223,6 +242,10 @@ public class NotificationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Save to SharedPreference checkBox parameter
+     * @param pIndex index of the checkbox
+     */
     public void SharedSaver(int pIndex){
         //save in sharedPreferences the change
         try {

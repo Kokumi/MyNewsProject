@@ -3,7 +3,6 @@ package com.debruyckere.florian.mynews.controller.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,18 +49,21 @@ public class PersonalFragment extends BaseFragment {
         return view;
     }
 
+    /**
+     * Launch the download of news from New York Times
+     */
     @Override
     public void launchDownload() {
-        // key: 318107b72537430c89101c53511a08d0
-        //"https://api.nytimes.com/svc/search/v2/articlesearch.json"
-        /*new NewsDownload(this,"https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=318107b72537430c89101c53511a08d0")
-        //https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631*/
 
         new NewsDownload(this,"https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631",
                 getContext(),true)
         .execute();
     }
 
+    /**
+     * Disable the message after download
+     * @param news downloaded news
+     */
     @Override
     public void onPostExecute(ArrayList<News> news) {
         super.onPostExecute(news);

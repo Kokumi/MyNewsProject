@@ -27,12 +27,17 @@ public class PageAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
+    /**
+     * get the tab
+     * @param position position of the tab
+     * @return tab
+     */
     @Override
     public Fragment getItem(int position) {
         BaseFragment bF;
         switch (position){
             case 0: bF = TopStoryFragment.newInstance(position, this.colors[position]);
-            break;
+                break;
             case 1: bF = PopularFragment.newInstance(position,this.colors[position]);
                 break;
             case 2: bF = PersonalFragment.newInstance(position,this.colors[position]);

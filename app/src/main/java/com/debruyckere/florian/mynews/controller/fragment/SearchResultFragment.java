@@ -16,8 +16,7 @@ public class SearchResultFragment extends BaseFragment {
     private ArrayList<Boolean> mBoolList = new ArrayList<>();
 
 
-    public SearchResultFragment(){
-    }
+    public SearchResultFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,17 +30,10 @@ public class SearchResultFragment extends BaseFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public static BaseFragment newInstance(int position, int color){
-        SearchResultFragment tSF = new SearchResultFragment();
-        Bundle args = new Bundle();
-
-        args.putInt(KEY_Position,position);
-        args.putInt(KEY_Color,color);
-        tSF.setArguments(args);
-
-        return tSF;
-    }
-
+    /**
+     * load search parameters from the bundle send by SearchActivity
+     * @param pArgs bundle of parameters
+     */
     public void bundleLoader(Bundle pArgs){
         mSearchTerm = pArgs.getString("SEARCHTERM","");
         Boolean mArt = pArgs.getBoolean("SEARCHART",false);
@@ -59,6 +51,9 @@ public class SearchResultFragment extends BaseFragment {
         mBoolList.add(mClimate);
     }
 
+    /**
+     * download news from NewYorkTimes API
+     */
     @Override
     public void launchDownload() {
         new NewsDownload(this, "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631", mSearchTerm, mBoolList)

@@ -57,6 +57,11 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * create toolbar's options
+     * @param menu toolbar's menu
+     * @return the toolbar's options
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -65,6 +70,11 @@ public class SearchActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * add reaction to the toolbar's option
+     * @param item option selected
+     * @return good execution rapport
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
@@ -93,6 +103,9 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * create reaction to the search button
+     */
     public void configureListener(){
 
         mSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +116,9 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * pick up search parameter and send to SearchResultFragment
+     */
     public void launchSearch(){
         Intent intent = new Intent(this, SearchResultFragment.class);
         Bundle bundle = new Bundle();
@@ -130,7 +146,6 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         intent.putExtra("SEARCHBUNDKE",bundle);
-       // startActivity(intent);
 
         BaseFragment fragment = new SearchResultFragment();
         fragment.setArguments(bundle);

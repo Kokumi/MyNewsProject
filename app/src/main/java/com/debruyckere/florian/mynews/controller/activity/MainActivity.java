@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -25,7 +24,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.News;
@@ -34,7 +32,6 @@ import com.debruyckere.florian.mynews.model.PageAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindView;
 
@@ -44,8 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.main_tabs)TabLayout mTab;
     @BindView(R.id.main_navigation) NavigationView mNavigationView;
     @BindView(R.id.main_layout)DrawerLayout mLayout;
-
-    //to comment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * create the tab
+     */
     private void configureViewPager(){
         ViewPager pager = findViewById(R.id.main_viewpager);
         pager.setAdapter(new PageAdapter(getSupportFragmentManager(),getResources().getIntArray(R.array.colorPagesViewPager)){
@@ -75,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * create options of the toolbar
+     * @param menu toolbar's menu
+     * @return toolbar's option
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -83,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * add reaction to the toolbar
+     * @param item option selected
+     * @return good execution rapport
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -126,6 +134,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         notificationManagerCompat.notify(notificationID,NotificationConfiguration().build());
     }
 
+    /**
+     * create notification
+     * @return notification
+     */
     public NotificationCompat.Builder NotificationConfiguration(){
 
         return new NotificationCompat.Builder(this,"MyNewsChannel")
@@ -138,11 +150,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
       Alarm Manager
       --------------*/
 
+    /**
+     * create the alarm
+     */
     public void configureAlarmManager(){
         AlarmManager alarm =(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pi = PendingIntent.getActivity(this,0,new Intent(this, AlarmReceiver.class),0);
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR,7);
+        cal.set(Calendar.HOUR,7);               //alarm set to active at 7 hour
 
         SharedPreferences shared = getSharedPreferences("PARAMETER",MODE_PRIVATE);
 
@@ -187,7 +202,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
+    /**
+     * create toolbar
+     */
     private void configureDrawerLayout(){
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mLayout.addDrawerListener(toggle);
@@ -199,35 +216,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      Navigation Drawer
      ------------------*/
 
-
+    /**
+     * create navigation drawer
+     */
     public void configureNavigationView(){
         mNavigationView = findViewById(R.id.main_navigation);
         mNavigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * add reaction to navigation drawer
+     * @param item tab selected
+     * @return good execution rapport
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         Intent navigationIntent;
 
         switch (id){
-            /*case R.id.main_drawer_news: Intent navigationIntent = new Intent(this, MainActivity.class);
-                startActivity(navigationIntent);
-                break;*/
             case R.id.main_drawer_notification:navigationIntent = new Intent(this, NotificationActivity.class);
                 startActivity(navigationIntent);
-                break;
+                return true;
             case R.id.main_drawer_search:navigationIntent = new Intent(this, SearchActivity.class);
                 startActivity(navigationIntent);
-                break;
+                return true;
             default:
                 break;
 
         }
-        //this.
 
-        return true;
+        return false;
     }
+
+    /**
+     * modify the reaction of back button to close the navigation drawer if it open
+     */
     @Override
     public void onBackPressed(){
         if(this.mLayout.isDrawerOpen(GravityCompat.START)){

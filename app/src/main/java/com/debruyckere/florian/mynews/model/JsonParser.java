@@ -17,18 +17,26 @@ import java.util.Locale;
  */
 public class JsonParser{
 
-    private String mFilterParameter;
     private Boolean mPersonal=false;
     private ArrayList<String> mParamFilter = new ArrayList<>();
     private String mParamNewsName;
 
+    /**
+     * Load Search Parameter
+     * @param pFilterParameter search parameters
+     */
     public JsonParser(String pFilterParameter){
-        mFilterParameter = pFilterParameter;
-        if(!mFilterParameter.equals("")){
+        if(!pFilterParameter.equals("")){
             mPersonal = true;
         }
     }
 
+    /**
+     * Load more complete Search Parameters
+     * @param pParam list of search parameters
+     * @param pPersonal if search parameters must be consider
+     * @param pParamNewsName parameter to search a word
+     */
     public JsonParser(ArrayList<String> pParam, Boolean pPersonal, String pParamNewsName){
         Log.i("JSON PARSER","Constructeur with ");
         mParamFilter = pParam;
@@ -50,6 +58,7 @@ public class JsonParser{
         reader.beginObject();
         while(reader.hasNext()){
 
+            // to avoid NullPointerException
             String newTitle="";
             String newUrl="";
             String newTheme="";
@@ -80,6 +89,7 @@ public class JsonParser{
                     case "subsection": newSubTheme = reader.nextString();
                         break;
                     case "multimedia":
+                        // take the first image
                         Boolean out = true;
 
                         try {
@@ -108,9 +118,9 @@ public class JsonParser{
                                 out = false;
                             }
                         }
-                        //reader.skipValue();
                         break;
                     case "media":
+                        // same thing as multimedia
                         out = true;
                         try {
                             reader.beginArray();
@@ -126,6 +136,7 @@ public class JsonParser{
                                     break;
                                     case "type":
                                         if (!reader.nextString().equals("image")) {
+                                            //go out if it's not an image
                                             out = false;
                                         }
                                     break;
@@ -179,15 +190,15 @@ public class JsonParser{
                         break;
                 }
                 try {
+                    // save the news only if there all needed data
                     if(!newTitle.equals("") & !newTheme.equals("") &
                             !newUrl.equals("") & !newThumbnail.equals("") ) {   //& !newSubTheme.equals("")
 
                         if(mPersonal ){
 
+                            if(mParamFilter.size() != 0) {
+                                //verify if there a theme as been choose
 
-
-
-                            if(mParamFilter.size() != 0) {              //verify if there a theme as been choose
                                 int index = 0;
                                 String filterTheme=newTheme+newSubTheme;
                                 while (mParamFilter.size() > index) {
@@ -202,6 +213,8 @@ public class JsonParser{
                                     index++;
                                 }
                             }else{
+                                //if the user doesn't choose a theme
+
                                 if (newTitle.contains(mParamNewsName)) {
 
                                     theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
@@ -212,11 +225,13 @@ public class JsonParser{
                             }
 
                         }else{
+                            // if the search parameter don't have to be consider
                             theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                             result.add(theNew);
                             Log.i("JSON PARSER", "add new: " + newTitle);
                         }
 
+                        // empty the current news
                         newTitle = "";
                         newTheme = "";
                         newSubTheme="";

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -38,7 +37,6 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
         if(pPersonalChoice){
             mPrefs = pContext.getSharedPreferences("PARAMETER",Context.MODE_PRIVATE);
-            //mFilterParameterPass = prefs.getString("FilterParameter","");
 
             SharedLoader();
         }
@@ -82,11 +80,6 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
     @Override
     protected void onPostExecute(ArrayList<News> news) {
         super.onPostExecute(news);
-        /*try {
-            in.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }*/
 
         mCallback.get().onPostExecute(news);
     }
@@ -104,7 +97,7 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
             HttpURLConnection conn =(HttpURLConnection) url.openConnection();
             in = conn.getInputStream();
 
-            //JsonParser parser = new JsonParser(mFilterParameterPass);
+            // Parse le JSON downloaded
             JsonParser parser = new JsonParser(mParam,mPersonal,mParamNewsName);
             result = parser.JsonParse(in);
 
@@ -123,6 +116,9 @@ public class NewsDownload extends AsyncTask<Void,Void,ArrayList<News>> {
 
     }
 
+    /**
+     * Load search parameter from Shared Preference
+     */
     public void SharedLoader(){
 
         try{
