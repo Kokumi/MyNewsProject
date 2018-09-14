@@ -122,16 +122,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void createNotificationChannel(){
         CharSequence name = "MyNews Channel";
         String description = "Channel use for Notification of MyNews app";
-        int notificationID = 0;
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
         NotificationChannel channel = new NotificationChannel("MyNewsChannel",name,importance);
         channel.setDescription(description);
 
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(notificationID,NotificationConfiguration().build());
     }
 
     /**
