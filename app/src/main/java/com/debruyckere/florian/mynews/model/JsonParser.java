@@ -65,6 +65,7 @@ public class JsonParser{
             String newSubTheme="";
             String newThumbnail = "";
             Date newDate=new Date();
+            Boolean hasImage=true;
 
             while (reader.hasNext()){
                 String name = reader.nextName();
@@ -97,6 +98,7 @@ public class JsonParser{
                             reader.beginObject();
                         }catch (IllegalStateException e){
                             out =false;
+                            hasImage =false;
                         }
                         while(out){
                             try {
@@ -192,7 +194,7 @@ public class JsonParser{
                 try {
                     // save the news only if there all needed data
                     if(!newTitle.equals("") & !newTheme.equals("") &
-                            !newUrl.equals("") & !newThumbnail.equals("") ) {   //& !newSubTheme.equals("")
+                            !newUrl.equals("") & !newThumbnail.equals("") | !hasImage ) {   //& !newSubTheme.equals("")
 
                         if(mPersonal ){
 
