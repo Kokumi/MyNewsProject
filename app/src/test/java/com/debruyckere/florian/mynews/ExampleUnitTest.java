@@ -167,4 +167,9 @@ public class ExampleUnitTest {
 
         assertThat(newsTest.getTitle(), is("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing"));
     }
+
+    @Test
+    public void test(){
+
+    }
 }

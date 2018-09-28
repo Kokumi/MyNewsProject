@@ -26,12 +26,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.debruyckere.florian.mynews.R;
+import com.debruyckere.florian.mynews.model.AlarmReceiver;
 import com.debruyckere.florian.mynews.model.News;
 import com.debruyckere.florian.mynews.model.NewsDownload;
 import com.debruyckere.florian.mynews.model.PageAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 
@@ -130,18 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         notificationManager.createNotificationChannel(channel);
     }
 
-    /**
-     * create notification
-     * @return notification
-     */
-    public NotificationCompat.Builder NotificationConfiguration(){
 
-        return new NotificationCompat.Builder(this,"MyNewsChannel")
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("MyNews new news")
-                .setContentText("A new news has arrived")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-    }
     /*--------------
       Alarm Manager
       --------------*/
@@ -151,51 +142,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     public void configureAlarmManager(){
         AlarmManager alarm =(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getActivity(this,0,new Intent(this, AlarmReceiver.class),0);
+
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR,7);               //alarm set to active at 7 hour
+        cal.setTimeInMillis(System.currentTimeMillis());
+        //cal.set(Calendar.HOUR,7);               //alarm set to active at 7 hour
+        cal.add(Calendar.MINUTE,1);
+        cal.set(Calendar.SECOND,0);
+        Log.i("ALARM","set for: "+ cal.getTime());
 
+        PendingIntent pi = PendingIntent.getBroadcast(this,0,new Intent(this, AlarmReceiver.class),0);
         SharedPreferences shared = getSharedPreferences("PARAMETER",MODE_PRIVATE);
-
 
         if(shared.getBoolean("paramEnable",false)){
 
-            alarm.set(AlarmManager.ELAPSED_REALTIME, cal.getTimeInMillis(),pi);
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pi);
+            Log.i("ALARM","STATE: ACTIVE");
 
         }else{
             alarm.cancel(pi);
+            Log.i("ALARM","STATE: INACTIVE");
         }
 
-    }
-
-    public class AlarmReceiver extends BroadcastReceiver implements NewsDownload.Listeners{
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            new NewsDownload(this,"https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631",
-                    getBaseContext(),true)
-                    .execute();
-        }
-
-        @Override
-        public void onPreExecute() {
-
-        }
-
-        @Override
-        public void doInBackground() {
-
-        }
-
-        @Override
-        public void onPostExecute(ArrayList<News> news) {
-            if(news.size()!= 0){
-                //launch notification
-                Log.i("ALARM","there new news");
-
-                NotificationManagerCompat notiManager = NotificationManagerCompat.from(getBaseContext());
-                notiManager.notify(0,NotificationConfiguration().build());
-            }
-        }
     }
 
     /**

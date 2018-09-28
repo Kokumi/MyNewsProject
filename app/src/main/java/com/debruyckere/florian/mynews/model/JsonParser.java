@@ -27,7 +27,7 @@ public class JsonParser{
      */
     public JsonParser(String pFilterParameter){
         if(!pFilterParameter.equals("")){
-            mPersonal = true;
+            mPersonal = false;
         }
     }
 
@@ -38,7 +38,6 @@ public class JsonParser{
      * @param pParamNewsName parameter to search a word
      */
     public JsonParser(ArrayList<String> pParam, Boolean pPersonal, String pParamNewsName){
-        Log.i("JSON PARSER","Constructeur with ");
         mParamFilter = pParam;
         mPersonal = pPersonal;
         mParamNewsName = pParamNewsName;
@@ -53,6 +52,7 @@ public class JsonParser{
     public ArrayList<News> JsonParse(InputStream pStream) throws IOException {
         ArrayList<News> result = new ArrayList<>();
         News theNew;
+        Log.i("JSONPARSER","PARSING");
 
         JsonReader reader = new JsonReader(new InputStreamReader(pStream,"UTF-8"));
         reader.beginObject();
@@ -177,8 +177,7 @@ public class JsonParser{
                     case "results":reader.beginArray();
                                     reader.beginObject();
                         break;
-                    case "short_url":Log.i("JSON PARSER","Change NEW");
-                                    reader.skipValue();
+                    case "short_url":reader.skipValue();
                                     reader.endObject();
                                     try {
                                         reader.beginObject();
@@ -208,7 +207,6 @@ public class JsonParser{
 
                                         theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                                         result.add(theNew);
-                                        Log.i("JSON PARSER", "add new: " + newTitle);
                                         break;
                                     }
 
@@ -221,7 +219,6 @@ public class JsonParser{
 
                                     theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                                     result.add(theNew);
-                                    Log.i("JSON PARSER", "add new: " + newTitle);
                                     break;
                                 }
                             }
@@ -230,7 +227,6 @@ public class JsonParser{
                             // if the search parameter don't have to be consider
                             theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                             result.add(theNew);
-                            Log.i("JSON PARSER", "add new: " + newTitle);
                         }
 
                         // empty the current news

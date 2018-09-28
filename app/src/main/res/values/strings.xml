@@ -32,4 +32,5 @@
     <string name="navigation_drawer_close">Close navigation</string>
     <string name="navigation_search_title">search</string>
     <string name="navigation_notification_title">notification</string>
+    <string name="searchWarning">nothing found</string>
 </resources>
