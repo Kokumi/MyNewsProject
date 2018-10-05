@@ -17,6 +17,9 @@ import android.widget.Toast;
 import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.controller.fragment.BaseFragment;
 import com.debruyckere.florian.mynews.controller.fragment.SearchResultFragment;
+import com.debruyckere.florian.mynews.model.PickersDialogs;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 
@@ -32,11 +35,11 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.search_button)Button mSearchButton;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
         Toolbar mToolbar = findViewById(R.id.search_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -153,4 +156,13 @@ public class SearchActivity extends AppCompatActivity {
         trans.replace(R.id.search_layout,fragment);
         trans.commit();
     }
+    public void setDate(View view){
+        Button clickedButton = view.findViewById(view.getId());
+
+        PickersDialogs pickersDialogs = new PickersDialogs();
+        pickersDialogs.getButton(clickedButton);
+        pickersDialogs.show(this.getFragmentManager(),"date");
+    }
+
+
 }

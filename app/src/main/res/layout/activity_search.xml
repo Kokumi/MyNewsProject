@@ -23,9 +23,49 @@
         android:inputType="text"/>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searchBeginDate"
+            android:layout_marginStart="20dp"/>
+
+        <Button
+            android:id="@+id/btn_begin_date"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:text="Begin date"
+            android:onClick="setDate"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searchEndDate"
+            android:layout_marginStart="200dp"/>
+
+        <Button
+            android:id="@+id/btn_end_date"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="200dp"
+            android:text="end Date"
+            android:onClick="setDate"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
 
         <CheckBox
             android:id="@+id/search_politics"

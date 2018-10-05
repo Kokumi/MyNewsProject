@@ -30,6 +30,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.view.Display;
 
+import com.debruyckere.florian.mynews.model.AlarmReceiver;
 import com.debruyckere.florian.mynews.model.JsonParser;
 import com.debruyckere.florian.mynews.model.News;
 import com.debruyckere.florian.mynews.model.NewsAdapter;

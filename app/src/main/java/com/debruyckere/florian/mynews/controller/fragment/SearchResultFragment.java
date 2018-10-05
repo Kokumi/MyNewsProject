@@ -1,17 +1,25 @@
 package com.debruyckere.florian.mynews.controller.fragment;
 
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.News;
 import com.debruyckere.florian.mynews.model.NewsDownload;
+import com.debruyckere.florian.mynews.model.PickersDialogs;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 
@@ -79,4 +87,6 @@ public class SearchResultFragment extends BaseFragment {
 
         super.onPostExecute(news);
     }
+
+
 }
