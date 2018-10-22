@@ -67,14 +67,40 @@ public class JsonParser{
             Date newDate=new Date();
             Boolean hasImage=true;
 
+
             while (reader.hasNext()){
                 String name = reader.nextName();
-
 
                 switch (name){
                     case "title": newTitle=reader.nextString();
                         break;
+                    case"headline":
+                        reader.beginObject();
+                        Boolean out = true;
+
+                        while(out){
+                            try{
+                                name = reader.nextName();
+                                switch (name){
+                                    case "main": newTitle = reader.nextString();
+                                        Log.i("NEWS","TITLE discover");
+                                        break;
+                                        default: reader.skipValue();
+                                        break;
+                                }
+
+                            }
+                            catch (IllegalStateException e){
+                                reader.endObject();
+                                out = false;
+                            }
+                        }
+
+                        break;
                     case "url": newUrl = reader.nextString();
+                        break;
+                    case "web_url": Log.i("NEWS","URL discover");
+                        newUrl = reader.nextString();
                         break;
                     case "published_date":
                         String xmlDate = reader.nextString();
@@ -85,13 +111,26 @@ public class JsonParser{
                             Log.e("DATE PARSING",e.getMessage());
                         }
                         break;
+                    case "pub_date":
+                        xmlDate = reader.nextString();
+                        format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+                        try{
+                            newDate = format.parse(xmlDate);
+                        }catch (ParseException e){
+                            Log.e("DATE PARSING",e.getMessage());
+                        }
+                        Log.i("NEWS","DATE discover");
+                        break;
                     case "section":newTheme = reader.nextString();
                         break;
                     case "subsection": newSubTheme = reader.nextString();
                         break;
+                    case "section_name": newTheme = reader.nextString();
+                        Log.i("NEWS","SECTION discover");
+                        break;
                     case "multimedia":
                         // take the first image
-                        Boolean out = true;
+                        out = true;
 
                         try {
                             reader.beginArray();
@@ -108,6 +147,11 @@ public class JsonParser{
                                         newThumbnail = reader.nextString();
                                         break;
                                     case "copyright":
+                                        reader.skipValue();
+                                        reader.endObject();
+                                        reader.beginObject();
+                                        break;
+                                    case "crop_name":
                                         reader.skipValue();
                                         reader.endObject();
                                         reader.beginObject();
@@ -186,6 +230,28 @@ public class JsonParser{
                                         reader.endArray();
                                     }
                         break;
+                    case "uri": reader.skipValue();
+                                reader.endObject();
+                                try{
+                                    reader.beginObject();
+                                }catch (IllegalStateException e){
+                                    reader.endArray();
+                                }
+                        break;
+
+                    case "response":reader.beginObject();
+                        break;
+                    case "docs": reader.beginArray();
+                                reader.beginObject();
+                                /*try {
+                                    reader.beginObject();
+                                } catch (IllegalStateException e){
+                                    Log.i("PARSER","End Array");
+                                    reader.endArray();
+                                }*/
+                        break;
+
+
                     default:
                         reader.skipValue();
                         break;

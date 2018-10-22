@@ -4,15 +4,12 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,13 +24,9 @@ import android.view.MenuItem;
 
 import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.AlarmReceiver;
-import com.debruyckere.florian.mynews.model.News;
-import com.debruyckere.florian.mynews.model.NewsDownload;
 import com.debruyckere.florian.mynews.model.PageAdapter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindView;
 
@@ -145,8 +138,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        //cal.set(Calendar.HOUR,7);               //alarm set to active at 7 hour
-        cal.add(Calendar.MINUTE,1);
+        cal.set(Calendar.HOUR,7);               //alarm set to active at 7 hour
+        cal.set(Calendar.MINUTE,0);
+        //cal.add(Calendar.MINUTE,1);
         cal.set(Calendar.SECOND,0);
         Log.i("ALARM","set for: "+ cal.getTime());
 

@@ -1,32 +1,27 @@
 package com.debruyckere.florian.mynews.controller.fragment;
 
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.News;
 import com.debruyckere.florian.mynews.model.NewsDownload;
-import com.debruyckere.florian.mynews.model.PickersDialogs;
 
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import butterknife.BindView;
 
 
 public class SearchResultFragment extends BaseFragment {
 
     private String mSearchTerm;
+    private String mBeginDate;
+    private String mEndDate;
     @BindView(R.id.fragment_Warning_Parameter)TextView mWarningText;
     private ArrayList<Boolean> mBoolList = new ArrayList<>();
 
@@ -36,13 +31,13 @@ public class SearchResultFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState);
 
-        mWarningText = view.findViewById(R.id.fragment_Warning_Parameter);
         Bundle args = this.getArguments();
-        if(args != null) {
+        if(args != null)
             bundleLoader(args);
-        }
+
+        View view = super.onCreateView(inflater,container,savedInstanceState);
+        mWarningText = view.findViewById(R.id.fragment_Warning_Parameter);
 
         return view;
     }
@@ -54,6 +49,8 @@ public class SearchResultFragment extends BaseFragment {
     public void bundleLoader(Bundle pArgs){
 
         mSearchTerm = pArgs.getString("SEARCHTERM","");
+        mBeginDate = pArgs.getString("SEARCHBEGINDATE","");
+        mEndDate = pArgs.getString("SEARCHBEGINDATE","");
         Boolean mArt = pArgs.getBoolean("SEARCHART",false);
         Boolean mBusiness = pArgs.getBoolean("SEARCHBUSINESS",false);
         Boolean mPolitics = pArgs.getBoolean("SEARCHPOLITICS",false);
@@ -74,14 +71,25 @@ public class SearchResultFragment extends BaseFragment {
      */
     @Override
     public void launchDownload() {
-        new NewsDownload(this, "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631", mSearchTerm, mBoolList)
-                .execute();
+        //https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=318107b72537430c89101c53511a08d0?q=?begin_date=?end_date=?sort=newest
+        //TODO: add date and query
+        String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=318107b72537430c89101c53511a08d0";
+
+        if(mSearchTerm.length() != 0) url+=("&q="+mSearchTerm);
+        if(mBeginDate.length()!=0) url+="&begin_date="+mBeginDate;
+        if(mEndDate.length()!=0) url+="&end_date="+mEndDate;
+
+        Log.d("LaunchDownload","url: "+url);
+
+        new NewsDownload(this,url,"",mBoolList)
+        .execute();
     }
 
     @Override
     public void onPostExecute(ArrayList<News> news) {
         if(news.size()==0){
-            mWarningText.setText("nothing found");
+            String s = "nothing found";
+            mWarningText.setText(s);
             mWarningText.setVisibility(View.VISIBLE);
         }
 

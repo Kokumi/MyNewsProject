@@ -33,6 +33,8 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.search_sports)CheckBox mSportsBox;
     @BindView(R.id.search_climate)CheckBox mClimateBox;
     @BindView(R.id.search_button)Button mSearchButton;
+    @BindView(R.id.btn_begin_date)Button mBeginDate;
+    @BindView(R.id.btn_end_date)Button mEndDate;
 
 
 
@@ -54,6 +56,8 @@ public class SearchActivity extends AppCompatActivity {
         mSportsBox = findViewById(R.id.search_sports);
         mClimateBox = findViewById(R.id.search_climate);
         mSearchButton = findViewById(R.id.search_button);
+        mBeginDate = findViewById(R.id.btn_begin_date);
+        mEndDate = findViewById(R.id.btn_end_date);
 
         configureListener();
 
@@ -126,7 +130,10 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SearchResultFragment.class);
         Bundle bundle = new Bundle();
 
+        Log.d("Search","searchterm: "+mSearchTerm.getText().toString());
+
         if(!mSearchTerm.getText().toString().equals("")){
+            Log.i("Search","there mSearchTerm Text");
             bundle.putString("SEARCHTERM",mSearchTerm.getText().toString());
         }
         if(mArtsBox.isChecked()){
@@ -147,6 +154,12 @@ public class SearchActivity extends AppCompatActivity {
         if(mClimateBox.isChecked()){
             bundle.putBoolean("SEARCHCLIMATE",mClimateBox.isChecked());
         }
+        if(!mBeginDate.getText().toString().equals("Begin date")){
+            bundle.putString("SEARCHBEGINDATE",DateUrlFormatter( mBeginDate.getText().toString()));
+        }
+        if(!mEndDate.getText().toString().equals("end Date")){
+            bundle.putString("SEARCHBEGINDATE",DateUrlFormatter( mEndDate.getText().toString()));
+        }
 
         intent.putExtra("SEARCHBUNDKE",bundle);
 
@@ -160,9 +173,33 @@ public class SearchActivity extends AppCompatActivity {
         Button clickedButton = view.findViewById(view.getId());
 
         PickersDialogs pickersDialogs = new PickersDialogs();
-        pickersDialogs.getButton(clickedButton);
+        pickersDialogs.setButton(clickedButton);
         pickersDialogs.show(this.getFragmentManager(),"date");
     }
+    //0-3 year / 4 space / 5-6 month / 7 space / 8-9 day
+    //0-3 year / 4 space / 5 month / 6 space / 7 day
+    public String DateUrlFormatter(String pDate){
+        String toReturn;
+        toReturn = pDate.substring(0,4);            //get Year
+
+        if(pDate.substring(6,7).equals(" ")){
+            toReturn += "0"+pDate.substring(5,6);
+
+            if(pDate.length() == 7){
+                toReturn += "0";
+            }
+            toReturn += pDate.substring(7);
+        }
+        else {
+            toReturn += pDate.substring(5, 7);
+
+            if(pDate.length()==8){
+                toReturn += "0";
+            }
+            toReturn += pDate.substring(8);
+        }
 
 
+        return toReturn;
+    }
 }
