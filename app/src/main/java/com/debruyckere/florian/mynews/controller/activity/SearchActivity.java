@@ -130,7 +130,6 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SearchResultFragment.class);
         Bundle bundle = new Bundle();
 
-        Log.d("Search","searchterm: "+mSearchTerm.getText().toString());
 
         if(!mSearchTerm.getText().toString().equals("")){
             Log.i("Search","there mSearchTerm Text");
@@ -158,7 +157,7 @@ public class SearchActivity extends AppCompatActivity {
             bundle.putString("SEARCHBEGINDATE",DateUrlFormatter( mBeginDate.getText().toString()));
         }
         if(!mEndDate.getText().toString().equals("end Date")){
-            bundle.putString("SEARCHBEGINDATE",DateUrlFormatter( mEndDate.getText().toString()));
+            bundle.putString("SEARCHENDDATE",DateUrlFormatter( mEndDate.getText().toString()));
         }
 
         intent.putExtra("SEARCHBUNDKE",bundle);

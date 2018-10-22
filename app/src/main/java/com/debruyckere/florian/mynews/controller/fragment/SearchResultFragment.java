@@ -12,7 +12,6 @@ import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.News;
 import com.debruyckere.florian.mynews.model.NewsDownload;
 
-import java.net.URL;
 import java.util.ArrayList;
 import butterknife.BindView;
 
@@ -50,7 +49,7 @@ public class SearchResultFragment extends BaseFragment {
 
         mSearchTerm = pArgs.getString("SEARCHTERM","");
         mBeginDate = pArgs.getString("SEARCHBEGINDATE","");
-        mEndDate = pArgs.getString("SEARCHBEGINDATE","");
+        mEndDate = pArgs.getString("SEARCHENDDATE","");
         Boolean mArt = pArgs.getBoolean("SEARCHART",false);
         Boolean mBusiness = pArgs.getBoolean("SEARCHBUSINESS",false);
         Boolean mPolitics = pArgs.getBoolean("SEARCHPOLITICS",false);
@@ -78,6 +77,7 @@ public class SearchResultFragment extends BaseFragment {
         if(mSearchTerm.length() != 0) url+=("&q="+mSearchTerm);
         if(mBeginDate.length()!=0) url+="&begin_date="+mBeginDate;
         if(mEndDate.length()!=0) url+="&end_date="+mEndDate;
+        url+="&sort=newest";
 
         Log.d("LaunchDownload","url: "+url);
 

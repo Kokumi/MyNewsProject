@@ -70,7 +70,7 @@ public class JsonParser{
 
             while (reader.hasNext()){
                 String name = reader.nextName();
-
+                Log.i("JSONPARSER","line name: "+name);
                 switch (name){
                     case "title": newTitle=reader.nextString();
                         break;
@@ -125,17 +125,25 @@ public class JsonParser{
                         break;
                     case "subsection": newSubTheme = reader.nextString();
                         break;
-                    case "section_name": newTheme = reader.nextString();
-                        Log.i("NEWS","SECTION discover");
+                    case "news_desk": newTheme = reader.nextString();
+                         if(reader.nextName().equals("section_name")){
+                            newSubTheme = reader.nextString();
+                         }
+                         else {
+                            Log.i("JSONTHEME","no sub theme");
+                            reader.skipValue();
+                         }
                         break;
                     case "multimedia":
                         // take the first image
+                        hasImage = true;
                         out = true;
 
                         try {
                             reader.beginArray();
                             reader.beginObject();
                         }catch (IllegalStateException e){
+                            reader.endArray();
                             out =false;
                             hasImage =false;
                         }
@@ -243,12 +251,6 @@ public class JsonParser{
                         break;
                     case "docs": reader.beginArray();
                                 reader.beginObject();
-                                /*try {
-                                    reader.beginObject();
-                                } catch (IllegalStateException e){
-                                    Log.i("PARSER","End Array");
-                                    reader.endArray();
-                                }*/
                         break;
 
 
@@ -257,10 +259,11 @@ public class JsonParser{
                         break;
                 }
                 try {
+
                     // save the news only if there all needed data
                     if(!newTitle.equals("") & !newTheme.equals("") &
-                            !newUrl.equals("") & !newThumbnail.equals("") | !hasImage ) {   //& !newSubTheme.equals("")
-
+                            !newUrl.equals("") & (!newThumbnail.equals("") | !hasImage) ) {   //& !newSubTheme.equals("")
+                        Log.d("JSON PARSER","image: "+hasImage);
                         if(mPersonal ){
 
                             if(mParamFilter.size() != 0) {
