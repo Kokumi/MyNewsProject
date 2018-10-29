@@ -31,9 +31,17 @@ public class PickersDialogs extends DialogFragment {
         return dialog;
     }
 
+    /**
+     * send the clicked button to dateSetting
+     */
     public void sendButton(){
-        dateSettings.getButton(clickedButton);
+        dateSettings.setButton(clickedButton);
     }
+
+    /**
+     * set the clicked button
+     * @param pButton the clicked button
+     */
     public void setButton(Button pButton){
         clickedButton = pButton;
     }

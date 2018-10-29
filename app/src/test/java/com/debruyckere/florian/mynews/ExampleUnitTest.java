@@ -26,6 +26,7 @@ import android.os.Looper;
 import android.os.UserHandle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.test.mock.MockContext;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Display;
@@ -52,6 +53,9 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -149,7 +153,7 @@ public class ExampleUnitTest {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-
+        News newsTest = new News("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing","",new Date(),"");
         InputStream stream = new ByteArrayInputStream(test.getBytes(StandardCharsets.UTF_8));
 
         try{
@@ -164,13 +168,17 @@ public class ExampleUnitTest {
             System.out.println("Error TEST "+ex.getMessage());
         }
         //News newsTest = toTest.get(0);
-        News newsTest = new News("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing","",new Date(),"");
+
 
         assertThat(newsTest.getTitle(), is("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing"));
     }
 
     @Test
-    public void test(){
+    public void NewsTest(){
+        News test = new News("Le test","This is a test",new Date(),"http://Nothingmore");
 
+        test.setDescription("this is nothing");
+        String testString = test.getDescription();
+        assertThat(testString, is("this is nothing"));
     }
 }

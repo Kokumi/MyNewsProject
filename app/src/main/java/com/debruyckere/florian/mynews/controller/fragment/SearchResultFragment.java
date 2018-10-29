@@ -66,12 +66,10 @@ public class SearchResultFragment extends BaseFragment {
     }
 
     /**
-     * download news from NewYorkTimes API
+     * download news from NewYorkTimes API with received params
      */
     @Override
     public void launchDownload() {
-        //https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=318107b72537430c89101c53511a08d0?q=?begin_date=?end_date=?sort=newest
-        //TODO: add date and query
         String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=318107b72537430c89101c53511a08d0";
 
         if(mSearchTerm.length() != 0) url+=("&q="+mSearchTerm);

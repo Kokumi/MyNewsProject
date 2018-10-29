@@ -23,7 +23,11 @@ public class DateSettings implements DatePickerDialog.OnDateSetListener {
         mClickedButton.setText(s);
     }
 
-    public void getButton(Button pButton){
+    /**
+     * set the clicked button
+     * @param pButton the clicked button
+     */
+    public void setButton(Button pButton){
         mClickedButton = pButton;
     }
 }

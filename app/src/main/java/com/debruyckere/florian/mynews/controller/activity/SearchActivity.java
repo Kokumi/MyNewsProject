@@ -19,8 +19,6 @@ import com.debruyckere.florian.mynews.controller.fragment.BaseFragment;
 import com.debruyckere.florian.mynews.controller.fragment.SearchResultFragment;
 import com.debruyckere.florian.mynews.model.PickersDialogs;
 
-import java.lang.ref.WeakReference;
-
 import butterknife.BindView;
 
 public class SearchActivity extends AppCompatActivity {
@@ -168,6 +166,11 @@ public class SearchActivity extends AppCompatActivity {
         trans.replace(R.id.search_layout,fragment);
         trans.commit();
     }
+
+    /**
+     * set the date to the clicked button
+     * @param view view of the clicked button
+     */
     public void setDate(View view){
         Button clickedButton = view.findViewById(view.getId());
 
@@ -175,8 +178,12 @@ public class SearchActivity extends AppCompatActivity {
         pickersDialogs.setButton(clickedButton);
         pickersDialogs.show(this.getFragmentManager(),"date");
     }
-    //0-3 year / 4 space / 5-6 month / 7 space / 8-9 day
-    //0-3 year / 4 space / 5 month / 6 space / 7 day
+
+    /**
+     * change the date to the correct format
+     * @param pDate date to correct
+     * @return the formatted date
+     */
     public String DateUrlFormatter(String pDate){
         String toReturn;
         toReturn = pDate.substring(0,4);            //get Year

@@ -83,7 +83,6 @@ public class JsonParser{
                                 name = reader.nextName();
                                 switch (name){
                                     case "main": newTitle = reader.nextString();
-                                        Log.i("NEWS","TITLE discover");
                                         break;
                                         default: reader.skipValue();
                                         break;
@@ -99,8 +98,7 @@ public class JsonParser{
                         break;
                     case "url": newUrl = reader.nextString();
                         break;
-                    case "web_url": Log.i("NEWS","URL discover");
-                        newUrl = reader.nextString();
+                    case "web_url": newUrl = reader.nextString();
                         break;
                     case "published_date":
                         String xmlDate = reader.nextString();
