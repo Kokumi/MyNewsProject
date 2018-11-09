@@ -186,26 +186,8 @@ public class SearchActivity extends AppCompatActivity {
      */
     public String DateUrlFormatter(String pDate){
         String toReturn;
-        toReturn = pDate.substring(0,4);            //get Year
-
-        if(pDate.substring(6,7).equals(" ")){
-            toReturn += "0"+pDate.substring(5,6);
-
-            if(pDate.length() == 7){
-                toReturn += "0";
-            }
-            toReturn += pDate.substring(7);
-        }
-        else {
-            toReturn += pDate.substring(5, 7);
-
-            if(pDate.length()==8){
-                toReturn += "0";
-            }
-            toReturn += pDate.substring(8);
-        }
-
-
+        toReturn = pDate.substring(0,4)+ pDate.substring(5,7) + pDate.substring(8);            //get Year
+        
         return toReturn;
     }
 }

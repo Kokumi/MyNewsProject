@@ -19,7 +19,26 @@ public class DateSettings implements DatePickerDialog.OnDateSetListener {
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         int realMonth = month+1;
-        String s = year+" "+realMonth+" "+dayOfMonth;
+        String s;
+        if(realMonth < 10){
+            if(dayOfMonth < 10){
+                s = year+" 0"+realMonth+" 0"+dayOfMonth;
+            }
+            else {
+                s = year+" 0"+realMonth+" "+dayOfMonth;
+            }
+
+        }
+        else {
+            if(dayOfMonth < 10){
+                s = year+" "+realMonth+" 0"+dayOfMonth;
+            }
+            else {
+                s = year+" "+realMonth+" "+dayOfMonth;
+            }
+
+        }
+
         mClickedButton.setText(s);
     }
 

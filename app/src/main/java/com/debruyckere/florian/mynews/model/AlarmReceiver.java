@@ -46,20 +46,21 @@ public class AlarmReceiver extends BroadcastReceiver implements NewsDownload.Lis
             Log.i("ALARM","there new news");
 
             NotificationManagerCompat notiManager = NotificationManagerCompat.from(mContext);
-            notiManager.notify(0,NotificationConfiguration().build());
+            notiManager.notify(0,NotificationConfiguration(news.size()).build());
         }
     }
 
     /**
      * create notification
+     * @param pNbNews number of new news
      * @return notification
      */
-    public NotificationCompat.Builder NotificationConfiguration(){
+    public NotificationCompat.Builder NotificationConfiguration(int pNbNews){
 
         return new NotificationCompat.Builder(mContext,"MyNewsChannel")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("MyNews new news")
-                .setContentText("A new news has arrived")
+                .setContentText("There "+pNbNews +" new news")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }
 }
