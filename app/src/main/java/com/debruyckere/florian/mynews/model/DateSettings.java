@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 public class DateSettings implements DatePickerDialog.OnDateSetListener {
     Context mContext;
     Button mClickedButton;
+    String mDate;
 
     public DateSettings(Context pContext){
         mContext = pContext;
@@ -38,7 +39,7 @@ public class DateSettings implements DatePickerDialog.OnDateSetListener {
             }
 
         }
-
+        mDate = s;
         mClickedButton.setText(s);
     }
 
@@ -48,5 +49,11 @@ public class DateSettings implements DatePickerDialog.OnDateSetListener {
      */
     public void setButton(Button pButton){
         mClickedButton = pButton;
+    }
+
+    //Only for unit test
+    public String dateSetTest(int year,int month, int dayOfMonth){
+        onDateSet(new DatePicker(mContext),year,month,dayOfMonth);
+        return mDate;
     }
 }
