@@ -127,44 +127,57 @@ public class SearchActivity extends AppCompatActivity {
     public void launchSearch(){
         Intent intent = new Intent(this, SearchResultFragment.class);
         Bundle bundle = new Bundle();
+        Boolean valid = false;
 
 
         if(!mSearchTerm.getText().toString().equals("")){
-            Log.i("Search","there mSearchTerm Text");
+            valid = true;
             bundle.putString("SEARCHTERM",mSearchTerm.getText().toString());
         }
         if(mArtsBox.isChecked()){
+            valid = true;
             bundle.putBoolean("SEARCHART",mArtsBox.isChecked());
         }
         if(mBusinessBox.isChecked()){
+            valid = true;
             bundle.putBoolean("SEARCHBUSINESS",mBusinessBox.isChecked());
         }
         if(mPoliticsBox.isChecked()){
+            valid = true;
             bundle.putBoolean("SEARCHPOLITICS",mPoliticsBox.isChecked());
         }
         if(mTravelsBox.isChecked()){
+            valid = true;
             bundle.putBoolean("SEARCHTRAVEL",mTravelsBox.isChecked());
         }
         if(mSportsBox.isChecked()){
+            valid = true;
             bundle.putBoolean("SEARCHSPORT",mSportsBox.isChecked());
         }
         if(mClimateBox.isChecked()){
+            valid = true;
             bundle.putBoolean("SEARCHCLIMATE",mClimateBox.isChecked());
         }
         if(!mBeginDate.getText().toString().equals("Begin date")){
+            valid = true;
             bundle.putString("SEARCHBEGINDATE",DateUrlFormatter( mBeginDate.getText().toString()));
         }
         if(!mEndDate.getText().toString().equals("end Date")){
+            valid = true;
             bundle.putString("SEARCHENDDATE",DateUrlFormatter( mEndDate.getText().toString()));
         }
 
-        intent.putExtra("SEARCHBUNDKE",bundle);
+        if(valid){
+            intent.putExtra("SEARCHBUNDKE",bundle);
 
-        BaseFragment fragment = new SearchResultFragment();
-        fragment.setArguments(bundle);
-        android.support.v4.app.FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-        trans.replace(R.id.search_layout,fragment);
-        trans.commit();
+            BaseFragment fragment = new SearchResultFragment();
+            fragment.setArguments(bundle);
+            android.support.v4.app.FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+            trans.replace(R.id.search_layout,fragment);
+            trans.commit();
+        }else{
+            Toast.makeText(this, "Research not valid",Toast.LENGTH_LONG).show();
+        }
     }
 
     /**

@@ -34,6 +34,7 @@ public class NotificationActivity extends AppCompatActivity {
     @BindView(R.id.notification_climate)CheckBox mClimateBox;
     @BindView(R.id.notification_enable)Switch mEnableSwitch;
     private ArrayList<CheckBox> CheckboxList = new ArrayList<>();
+    private Boolean valid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,7 +237,6 @@ public class NotificationActivity extends AppCompatActivity {
                 indexParam++;
             }
         }catch (Exception e){
-            Log.e("SHARED LOADER","INDEX: "+indexParam);
             e.printStackTrace();
             Toast.makeText(this,"ERROR: Can't load parameter",Toast.LENGTH_LONG).show();
         }
@@ -253,7 +253,6 @@ public class NotificationActivity extends AppCompatActivity {
             editor.putBoolean("paramValue"+pIndex,CheckboxList.get(pIndex).isChecked());
             editor.putString("paramName"+pIndex,(String)CheckboxList.get(pIndex).getText());
             editor.apply();
-            Log.i("SHARED SAVER","SAVE for"+CheckboxList.get(pIndex).getText());
         }catch (Exception e){
             e.printStackTrace();
             Toast.makeText(this,"ERROR: Can't save parameter",Toast.LENGTH_LONG).show();
@@ -261,5 +260,14 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if(!mArtsBox.isChecked() & !mBusinessBox.isChecked() & !mClimateBox.isChecked() &
+                !mPoliticsBox.isChecked() & !mSportsBox.isChecked() & !mTravelsBox.isChecked()){
 
+            Toast.makeText(this,"You must choose one category",Toast.LENGTH_LONG).show();
+        }else {
+            super.onBackPressed();
+        }
+    }
 }
