@@ -20,6 +20,7 @@ import com.debruyckere.florian.mynews.controller.fragment.SearchResultFragment;
 import com.debruyckere.florian.mynews.model.PickersDialogs;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -46,17 +47,7 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        mSearchTerm = findViewById(R.id.search_search_term);
-        mArtsBox = findViewById(R.id.search_arts);
-        mBusinessBox = findViewById(R.id.search_business);
-        mPoliticsBox = findViewById(R.id.search_politics);
-        mTravelsBox = findViewById(R.id.search_travel);
-        mSportsBox = findViewById(R.id.search_sports);
-        mClimateBox = findViewById(R.id.search_climate);
-        mSearchButton = findViewById(R.id.search_button);
-        mBeginDate = findViewById(R.id.btn_begin_date);
-        mEndDate = findViewById(R.id.btn_end_date);
-
+        ButterKnife.bind(this);
         configureListener();
 
 

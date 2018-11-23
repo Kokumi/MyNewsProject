@@ -29,6 +29,7 @@ import com.debruyckere.florian.mynews.model.PageAdapter;
 import java.util.Calendar;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,9 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = findViewById(R.id.main_toolbar);
-        mTab = findViewById(R.id.main_tabs);
-        mLayout = findViewById(R.id.main_layout);
+        ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
         configureViewPager();

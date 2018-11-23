@@ -22,6 +22,7 @@ import com.debruyckere.florian.mynews.R;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -34,7 +35,6 @@ public class NotificationActivity extends AppCompatActivity {
     @BindView(R.id.notification_climate)CheckBox mClimateBox;
     @BindView(R.id.notification_enable)Switch mEnableSwitch;
     private ArrayList<CheckBox> CheckboxList = new ArrayList<>();
-    private Boolean valid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +42,7 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         configureToolbar();
-
-        mSearchTerm = findViewById(R.id.notification_search_term);
-        mArtsBox = findViewById(R.id.notification_arts);
-        mBusinessBox = findViewById(R.id.notification_business);
-        mPoliticsBox = findViewById(R.id.notification_politics);
-        mTravelsBox = findViewById(R.id.notification_travel);
-        mSportsBox = findViewById(R.id.notification_sports);
-        mClimateBox = findViewById(R.id.notification_climate);
-        mEnableSwitch = findViewById(R.id.notification_enable);
+        ButterKnife.bind(this);
                                             //index
         CheckboxList.add(mArtsBox);         //0
         CheckboxList.add(mBusinessBox);     //1

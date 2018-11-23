@@ -19,6 +19,7 @@ import com.debruyckere.florian.mynews.model.NewsDownload;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
