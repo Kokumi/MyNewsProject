@@ -190,7 +190,7 @@ public class SearchActivity extends AppCompatActivity {
      */
     public String DateUrlFormatter(String pDate){
         String toReturn;
-        toReturn = pDate.substring(0,4)+ pDate.substring(5,7) + pDate.substring(8);            //get Year
+        toReturn = pDate.substring(0,4)+ pDate.substring(5,7) + pDate.substring(8);
         
         return toReturn;
     }
