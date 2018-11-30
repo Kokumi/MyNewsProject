@@ -1,53 +1,17 @@
 package com.debruyckere.florian.mynews;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentSender;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.UserHandle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.util.Xml;
-import android.view.Display;
+import android.test.mock.MockContext;
+import android.widget.Button;
 
+import com.debruyckere.florian.mynews.model.DateSettings;
 import com.debruyckere.florian.mynews.model.JsonParser;
 import com.debruyckere.florian.mynews.model.News;
-import com.debruyckere.florian.mynews.model.NewsAdapter;
-import com.debruyckere.florian.mynews.model.NewsDownload;
 
 import org.junit.Test;
-import org.xmlpull.v1.XmlSerializer;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,7 +31,6 @@ public class ExampleUnitTest {
         ArrayList<News> toTest = new ArrayList<>();
         JsonParser parser = new JsonParser("");
 
-        //faire en string
         String test = "{\n" +
                 "  \"status\": \"OK\",\n" +
                 "  \"copyright\": \"Copyright (c) 2018 The New York Times Company. All Rights Reserved.\",\n" +
@@ -148,7 +111,7 @@ public class ExampleUnitTest {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-
+        News newsTest = new News("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing","",new Date(),"");
         InputStream stream = new ByteArrayInputStream(test.getBytes(StandardCharsets.UTF_8));
 
         try{
@@ -163,8 +126,24 @@ public class ExampleUnitTest {
             System.out.println("Error TEST "+ex.getMessage());
         }
         //News newsTest = toTest.get(0);
-        News newsTest = new News("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing","",new Date(),"");
+
 
         assertThat(newsTest.getTitle(), is("Israel, ‘Spider-Man,’ N.B.A. Finals: Your Tuesday Briefing"));
+    }
+
+    @Test
+    public void NewsTest(){
+        News test = new News("Le test","This is a test",new Date(),"http://Nothingmore");
+
+        test.setDescription("this is nothing");
+        String testString = test.getDescription();
+        assertThat(testString, is("this is nothing"));
+    }
+    @Test
+    public void dateTest(){
+        DateSettings testDate = new DateSettings(new MockContext());
+        testDate.setButton(new Button(new MockContext()));
+
+        assertEquals(testDate.dateSetTest(2018,2,2),"2018 03 02");
     }
 }

@@ -4,21 +4,11 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/main_drawer_news"
-            android:title="Actuality"
-            />
+            android:id="@+id/main_drawer_search"
+            android:title="@string/navigation_search_title"/>
+        <item
+            android:id="@+id/main_drawer_notification"
+            android:title="@string/navigation_notification_title"/>
     </group>
 
-    <item android:title="Configuration">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/main_drawer_search"
-                    android:title="search"/>
-                <item
-                    android:id="@+id/main_drawer_notification"
-                    android:title="notification"/>
-            </group>
-        </menu>
-    </item>
 </menu>

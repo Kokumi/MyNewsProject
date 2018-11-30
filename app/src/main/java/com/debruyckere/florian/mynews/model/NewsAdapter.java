@@ -111,20 +111,27 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
       Task
      ---------*/
 
+    /**
+     * download the news's image
+     */
     public static class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
 
-        //private ImageView mImageView;
         private WeakReference<ImageView> mImageView;
 
         public DownloadImageTask(ImageView pImageView){
             mImageView = new WeakReference<>(pImageView);
-            //mImageView = pImageView;
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
 
-            mImageView.get().setImageBitmap(bitmap);
+            if(bitmap == null){
+                mImageView.get().setImageResource(R.mipmap.ic_launcher);
+            }
+            else{
+                mImageView.get().setImageBitmap(bitmap);
+            }
+
             this.cancel(true);
         }
 
@@ -138,7 +145,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 mImage = BitmapFactory.decodeStream(in);
             }catch (Exception e){
                 e.printStackTrace();
-
             }
 
             return mImage;

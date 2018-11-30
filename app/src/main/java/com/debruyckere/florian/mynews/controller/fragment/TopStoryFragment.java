@@ -32,10 +32,12 @@ public class TopStoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //View result = super.onCreateView(inflater,container,savedInstanceState);
         return super.onCreateView(inflater,container,savedInstanceState);
     }
 
+    /**
+     * Launch the download of news from New York Times
+     */
     @Override
     public void launchDownload() {
         new NewsDownload(this, "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631",

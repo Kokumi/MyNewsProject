@@ -19,6 +19,7 @@ import com.debruyckere.florian.mynews.model.NewsDownload;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,23 +31,11 @@ public abstract class BaseFragment extends Fragment implements NewsDownload.List
 
     @BindView(R.id.fragment_recyclerview) RecyclerView mRecyclerView;
     @BindView(R.id.fragment_progress) ProgressBar mProgressBar;
-    //protected RecyclerView mRecyclerView;
 
 
     public BaseFragment() {
         // Required empty public constructor
     }
-
-    /*public static BaseFragment newInstance(int position, int color){
-        BaseFragment bFrag = new BaseFragment();
-        Bundle args=new Bundle();
-
-        args.putInt(KEY_Position,position);
-        args.putInt(KEY_Color,color);
-        bFrag.setArguments(args);
-
-        return bFrag;
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +52,9 @@ public abstract class BaseFragment extends Fragment implements NewsDownload.List
         return result;
     }
 
+    /**
+     * create the recycler view to see news
+     */
     public void configureRecyclerView(){
         Log.i("BASE FRAGMENT","configure recyclerView");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -81,6 +73,10 @@ public abstract class BaseFragment extends Fragment implements NewsDownload.List
 
     }
 
+    /**
+     * show the news downloaded
+     * @param news downloaded news
+     */
     @Override
     public void onPostExecute(ArrayList<News> news) {
         mRecyclerView.setAdapter(new NewsAdapter(news));

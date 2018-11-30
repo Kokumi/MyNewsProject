@@ -24,6 +24,7 @@
         <activity android:name=".controller.activity.AboutActivity" />
         <activity android:name=".controller.activity.WebActivity" />
         <activity android:name=".controller.activity.NotificationActivity"/>
+        <receiver android:name=".model.AlarmReceiver"/>
     </application>
 
 </manifest>

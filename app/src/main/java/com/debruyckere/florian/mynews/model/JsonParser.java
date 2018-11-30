@@ -17,20 +17,27 @@ import java.util.Locale;
  */
 public class JsonParser{
 
-    private String mFilterParameter;
     private Boolean mPersonal=false;
     private ArrayList<String> mParamFilter = new ArrayList<>();
     private String mParamNewsName;
 
+    /**
+     * Load Search Parameter
+     * @param pFilterParameter search parameters
+     */
     public JsonParser(String pFilterParameter){
-        mFilterParameter = pFilterParameter;
-        if(!mFilterParameter.equals("")){
-            mPersonal = true;
+        if(!pFilterParameter.equals("")){
+            mPersonal = false;
         }
     }
 
+    /**
+     * Load more complete Search Parameters
+     * @param pParam list of search parameters
+     * @param pPersonal if search parameters must be consider
+     * @param pParamNewsName parameter to search a word
+     */
     public JsonParser(ArrayList<String> pParam, Boolean pPersonal, String pParamNewsName){
-        Log.i("JSON PARSER","Constructeur with ");
         mParamFilter = pParam;
         mPersonal = pPersonal;
         mParamNewsName = pParamNewsName;
@@ -45,26 +52,53 @@ public class JsonParser{
     public ArrayList<News> JsonParse(InputStream pStream) throws IOException {
         ArrayList<News> result = new ArrayList<>();
         News theNew;
+        Log.i("JSONPARSER","PARSING");
 
         JsonReader reader = new JsonReader(new InputStreamReader(pStream,"UTF-8"));
         reader.beginObject();
         while(reader.hasNext()){
 
+            // to avoid NullPointerException
             String newTitle="";
             String newUrl="";
             String newTheme="";
             String newSubTheme="";
             String newThumbnail = "";
             Date newDate=new Date();
+            Boolean hasImage=true;
+
 
             while (reader.hasNext()){
                 String name = reader.nextName();
-
-
+                Log.i("JSONPARSER","line name: "+name);
                 switch (name){
                     case "title": newTitle=reader.nextString();
                         break;
+                    case"headline":
+                        reader.beginObject();
+                        Boolean out = true;
+
+                        while(out){
+                            try{
+                                name = reader.nextName();
+                                switch (name){
+                                    case "main": newTitle = reader.nextString();
+                                        break;
+                                        default: reader.skipValue();
+                                        break;
+                                }
+
+                            }
+                            catch (IllegalStateException e){
+                                reader.endObject();
+                                out = false;
+                            }
+                        }
+
+                        break;
                     case "url": newUrl = reader.nextString();
+                        break;
+                    case "web_url": newUrl = reader.nextString();
                         break;
                     case "published_date":
                         String xmlDate = reader.nextString();
@@ -75,18 +109,41 @@ public class JsonParser{
                             Log.e("DATE PARSING",e.getMessage());
                         }
                         break;
+                    case "pub_date":
+                        xmlDate = reader.nextString();
+                        format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+                        try{
+                            newDate = format.parse(xmlDate);
+                        }catch (ParseException e){
+                            Log.e("DATE PARSING",e.getMessage());
+                        }
+                        Log.i("NEWS","DATE discover");
+                        break;
                     case "section":newTheme = reader.nextString();
                         break;
                     case "subsection": newSubTheme = reader.nextString();
                         break;
+                    case "news_desk": newTheme = reader.nextString();
+                         if(reader.nextName().equals("section_name")){
+                            newSubTheme = reader.nextString();
+                         }
+                         else {
+                            Log.i("JSONTHEME","no sub theme");
+                            reader.skipValue();
+                         }
+                        break;
                     case "multimedia":
-                        Boolean out = true;
+                        // take the first image
+                        hasImage = true;
+                        out = true;
 
                         try {
                             reader.beginArray();
                             reader.beginObject();
                         }catch (IllegalStateException e){
+                            reader.endArray();
                             out =false;
+                            hasImage =false;
                         }
                         while(out){
                             try {
@@ -100,6 +157,11 @@ public class JsonParser{
                                         reader.endObject();
                                         reader.beginObject();
                                         break;
+                                    case "crop_name":
+                                        reader.skipValue();
+                                        reader.endObject();
+                                        reader.beginObject();
+                                        break;
                                         default: reader.skipValue();
                                         break;
                                 }
@@ -108,9 +170,9 @@ public class JsonParser{
                                 out = false;
                             }
                         }
-                        //reader.skipValue();
                         break;
                     case "media":
+                        // same thing as multimedia
                         out = true;
                         try {
                             reader.beginArray();
@@ -126,6 +188,7 @@ public class JsonParser{
                                     break;
                                     case "type":
                                         if (!reader.nextString().equals("image")) {
+                                            //go out if it's not an image
                                             out = false;
                                         }
                                     break;
@@ -164,8 +227,7 @@ public class JsonParser{
                     case "results":reader.beginArray();
                                     reader.beginObject();
                         break;
-                    case "short_url":Log.i("JSON PARSER","Change NEW");
-                                    reader.skipValue();
+                    case "short_url":reader.skipValue();
                                     reader.endObject();
                                     try {
                                         reader.beginObject();
@@ -174,20 +236,37 @@ public class JsonParser{
                                         reader.endArray();
                                     }
                         break;
+                    case "uri": reader.skipValue();
+                                reader.endObject();
+                                try{
+                                    reader.beginObject();
+                                }catch (IllegalStateException e){
+                                    reader.endArray();
+                                }
+                        break;
+
+                    case "response":reader.beginObject();
+                        break;
+                    case "docs": reader.beginArray();
+                                reader.beginObject();
+                        break;
+
+
                     default:
                         reader.skipValue();
                         break;
                 }
                 try {
-                    if(!newTitle.equals("") & !newTheme.equals("") &
-                            !newUrl.equals("") & !newThumbnail.equals("") ) {   //& !newSubTheme.equals("")
 
+                    // save the news only if there all needed data
+                    if(!newTitle.equals("") & !newTheme.equals("") &
+                            !newUrl.equals("") & (!newThumbnail.equals("") | !hasImage) ) {   //& !newSubTheme.equals("")
+                        Log.d("JSON PARSER","image: "+hasImage);
                         if(mPersonal ){
 
+                            if(mParamFilter.size() != 0) {
+                                //verify if there a theme as been choose
 
-
-
-                            if(mParamFilter.size() != 0) {              //verify if there a theme as been choose
                                 int index = 0;
                                 String filterTheme=newTheme+newSubTheme;
                                 while (mParamFilter.size() > index) {
@@ -195,28 +274,29 @@ public class JsonParser{
 
                                         theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                                         result.add(theNew);
-                                        Log.i("JSON PARSER", "add new: " + newTitle);
                                         break;
                                     }
 
                                     index++;
                                 }
                             }else{
+                                //if the user doesn't choose a theme
+
                                 if (newTitle.contains(mParamNewsName)) {
 
                                     theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                                     result.add(theNew);
-                                    Log.i("JSON PARSER", "add new: " + newTitle);
                                     break;
                                 }
                             }
 
                         }else{
+                            // if the search parameter don't have to be consider
                             theNew = new News(newTitle, newTheme + newSubTheme, newDate, newUrl, newThumbnail);
                             result.add(theNew);
-                            Log.i("JSON PARSER", "add new: " + newTitle);
                         }
 
+                        // empty the current news
                         newTitle = "";
                         newTheme = "";
                         newSubTheme="";

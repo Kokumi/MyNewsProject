@@ -6,9 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.debruyckere.florian.mynews.R;
 import com.debruyckere.florian.mynews.model.NewsDownload;
 
 /**
@@ -36,13 +33,14 @@ public class PopularFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //View view = super.onCreateView(inflater,container,savedInstanceState);
         return super.onCreateView(inflater,container,savedInstanceState);
     }
 
+    /**
+     * launch the download the news of New York Times
+     */
     @Override
     public void launchDownload() {
-        //key: 318107b72537430c89101c53511a08d0 || 318107b72537430c89101c53511a08d0 || 318107b72537430c89101c53511a08d0
         new NewsDownload(this,"https://api.nytimes.com/svc/mostpopular/v2/mostshared/all-sections/7.json?api-key=318107b72537430c89101c53511a08d0",
                 getContext(),false)
                 .execute();

@@ -22,6 +22,7 @@ import com.debruyckere.florian.mynews.R;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -41,15 +42,7 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         configureToolbar();
-
-        mSearchTerm = findViewById(R.id.notification_search_term);
-        mArtsBox = findViewById(R.id.notification_arts);
-        mBusinessBox = findViewById(R.id.notification_business);
-        mPoliticsBox = findViewById(R.id.notification_politics);
-        mTravelsBox = findViewById(R.id.notification_travel);
-        mSportsBox = findViewById(R.id.notification_sports);
-        mClimateBox = findViewById(R.id.notification_climate);
-        mEnableSwitch = findViewById(R.id.notification_enable);
+        ButterKnife.bind(this);
                                             //index
         CheckboxList.add(mArtsBox);         //0
         CheckboxList.add(mBusinessBox);     //1
@@ -60,14 +53,15 @@ public class NotificationActivity extends AppCompatActivity {
 
         configureListener();
         SharedLoader();
-
-
     }
 
     /*------------
      Toolbar
       ------------*/
 
+    /**
+     * create Toolbar
+     */
     public void configureToolbar(){
         Toolbar mToolbar = findViewById(R.id.notification_toolbar);
         setSupportActionBar(mToolbar);
@@ -75,6 +69,11 @@ public class NotificationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * create toolbar's option
+     * @param menu toolbar's menu
+     * @return toolbar's options
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -83,6 +82,11 @@ public class NotificationActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * add reaction to toolbar's option
+     * @param item toolbar's option
+     * @return good execution rapport
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -114,6 +118,9 @@ public class NotificationActivity extends AppCompatActivity {
       Configuration
       ---------------*/
 
+    /**
+     * configure reaction to checkbox
+     */
     public void configureListener(){
         mArtsBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +174,7 @@ public class NotificationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                // save to shared parameter the entry
                 SharedPreferences.Editor editor = getSharedPreferences("PARAMETER",MODE_PRIVATE).edit();
                 editor.putString("paramSearch",mSearchTerm.getText().toString());
                 editor.apply();
@@ -176,6 +184,7 @@ public class NotificationActivity extends AppCompatActivity {
         mEnableSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // save to shared parameter the status of the switch
                 SharedPreferences.Editor editor = getSharedPreferences("PARAMETER",MODE_PRIVATE).edit();
                 editor.putBoolean("paramEnable",mEnableSwitch.isChecked());
                 editor.apply();
@@ -187,6 +196,9 @@ public class NotificationActivity extends AppCompatActivity {
       Shared Preferences
      ------------------*/
 
+    /**
+     * Load parameter save in SharedPreference
+     */
     public void SharedLoader(){
         SharedPreferences mPrefs = getSharedPreferences("PARAMETER", MODE_PRIVATE);
         int indexParam = 0;
@@ -217,12 +229,15 @@ public class NotificationActivity extends AppCompatActivity {
                 indexParam++;
             }
         }catch (Exception e){
-            Log.e("SHARED LOADER","INDEX: "+indexParam);
             e.printStackTrace();
             Toast.makeText(this,"ERROR: Can't load parameter",Toast.LENGTH_LONG).show();
         }
     }
 
+    /**
+     * Save to SharedPreference checkBox parameter
+     * @param pIndex index of the checkbox
+     */
     public void SharedSaver(int pIndex){
         //save in sharedPreferences the change
         try {
@@ -230,7 +245,6 @@ public class NotificationActivity extends AppCompatActivity {
             editor.putBoolean("paramValue"+pIndex,CheckboxList.get(pIndex).isChecked());
             editor.putString("paramName"+pIndex,(String)CheckboxList.get(pIndex).getText());
             editor.apply();
-            Log.i("SHARED SAVER","SAVE for"+CheckboxList.get(pIndex).getText());
         }catch (Exception e){
             e.printStackTrace();
             Toast.makeText(this,"ERROR: Can't save parameter",Toast.LENGTH_LONG).show();
@@ -238,5 +252,14 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if(!mArtsBox.isChecked() & !mBusinessBox.isChecked() & !mClimateBox.isChecked() &
+                !mPoliticsBox.isChecked() & !mSportsBox.isChecked() & !mTravelsBox.isChecked()){
 
+            Toast.makeText(this,"You must choose one category",Toast.LENGTH_LONG).show();
+        }else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -30,4 +30,7 @@
     MyNews can notify when he receive a news who agrees to your preference, you can activate this functionality in the notification screen</string>
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
+    <string name="navigation_search_title">search</string>
+    <string name="navigation_notification_title">notification</string>
+    <string name="searchWarning">nothing found</string>
 </resources>

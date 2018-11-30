@@ -4,16 +4,12 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,18 +21,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 import com.debruyckere.florian.mynews.R;
-import com.debruyckere.florian.mynews.model.News;
-import com.debruyckere.florian.mynews.model.NewsDownload;
+import com.debruyckere.florian.mynews.model.AlarmReceiver;
 import com.debruyckere.florian.mynews.model.PageAdapter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,16 +38,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.main_navigation) NavigationView mNavigationView;
     @BindView(R.id.main_layout)DrawerLayout mLayout;
 
-    //to comment
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = findViewById(R.id.main_toolbar);
-        mTab = findViewById(R.id.main_tabs);
-        mLayout = findViewById(R.id.main_layout);
+        ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
         configureViewPager();
@@ -65,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * create the tab
+     */
     private void configureViewPager(){
         ViewPager pager = findViewById(R.id.main_viewpager);
         pager.setAdapter(new PageAdapter(getSupportFragmentManager(),getResources().getIntArray(R.array.colorPagesViewPager)){
@@ -75,6 +67,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * create options of the toolbar
+     * @param menu toolbar's menu
+     * @return toolbar's option
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -83,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * add reaction to the toolbar
+     * @param item option selected
+     * @return good execution rapport
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -114,109 +116,98 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void createNotificationChannel(){
         CharSequence name = "MyNews Channel";
         String description = "Channel use for Notification of MyNews app";
-        int notificationID = 0;
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
         NotificationChannel channel = new NotificationChannel("MyNewsChannel",name,importance);
         channel.setDescription(description);
 
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(notificationID,NotificationConfiguration().build());
     }
 
-    public NotificationCompat.Builder NotificationConfiguration(){
 
-        return new NotificationCompat.Builder(this,"MyNewsChannel")
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("MyNews new news")
-                .setContentText("A new news has arrived")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-    }
     /*--------------
       Alarm Manager
       --------------*/
 
+    /**
+     * create the alarm
+     */
     public void configureAlarmManager(){
         AlarmManager alarm =(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getActivity(this,0,new Intent(this, AlarmReceiver.class),0);
+
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR,7);
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.set(Calendar.HOUR,7);               //alarm set to active at 7 hour
+        cal.set(Calendar.MINUTE,0);
+        //cal.add(Calendar.MINUTE,1);
+        cal.set(Calendar.SECOND,0);
+        Log.i("ALARM","set for: "+ cal.getTime());
 
+        PendingIntent pi = PendingIntent.getBroadcast(this,0,new Intent(this, AlarmReceiver.class),0);
         SharedPreferences shared = getSharedPreferences("PARAMETER",MODE_PRIVATE);
-
 
         if(shared.getBoolean("paramEnable",false)){
 
-            alarm.set(AlarmManager.ELAPSED_REALTIME, cal.getTimeInMillis(),pi);
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pi);
+            Log.i("ALARM","STATE: ACTIVE");
 
         }else{
             alarm.cancel(pi);
+            Log.i("ALARM","STATE: INACTIVE");
         }
 
     }
 
-    public class AlarmReceiver extends BroadcastReceiver implements NewsDownload.Listeners{
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            new NewsDownload(this,"https://api.nytimes.com/svc/topstories/v2/home.json?api-key=1ae7b601c1c7409796be77cce450f631",
-                    getBaseContext(),true)
-                    .execute();
-        }
-
-        @Override
-        public void onPreExecute() {
-
-        }
-
-        @Override
-        public void doInBackground() {
-
-        }
-
-        @Override
-        public void onPostExecute(ArrayList<News> news) {
-            if(news.size()!= 0){
-                //launch notification
-                Log.i("ALARM","there new news");
-
-                NotificationManagerCompat notiManager = NotificationManagerCompat.from(getBaseContext());
-                notiManager.notify(0,NotificationConfiguration().build());
-            }
-        }
-    }
-
+    /**
+     * create toolbar
+     */
     private void configureDrawerLayout(){
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
+
+    /*-----------------
+     Navigation Drawer
+     ------------------*/
+
+    /**
+     * create navigation drawer
+     */
     public void configureNavigationView(){
         mNavigationView = findViewById(R.id.main_navigation);
         mNavigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * add reaction to navigation drawer
+     * @param item tab selected
+     * @return good execution rapport
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        Intent navigationIntent;
 
         switch (id){
-            case R.id.main_drawer_news:
-                break;
-            case R.id.main_drawer_notification:
-                break;
-            case R.id.main_drawer_search:
-                break;
+            case R.id.main_drawer_notification:navigationIntent = new Intent(this, NotificationActivity.class);
+                startActivity(navigationIntent);
+                return true;
+            case R.id.main_drawer_search:navigationIntent = new Intent(this, SearchActivity.class);
+                startActivity(navigationIntent);
+                return true;
             default:
                 break;
 
         }
-        //this.
 
-        return true;
+        return false;
     }
+
+    /**
+     * modify the reaction of back button to close the navigation drawer if it open
+     */
     @Override
     public void onBackPressed(){
         if(this.mLayout.isDrawerOpen(GravityCompat.START)){
