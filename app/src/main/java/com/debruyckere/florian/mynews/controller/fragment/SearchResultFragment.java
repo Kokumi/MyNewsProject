@@ -36,6 +36,7 @@ public class SearchResultFragment extends BaseFragment {
             bundleLoader(args);
 
         View view = super.onCreateView(inflater,container,savedInstanceState);
+        mWarningText = view.findViewById(R.id.fragment_Warning_Parameter);
 
         return view;
     }
